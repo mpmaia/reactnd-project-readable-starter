@@ -3,7 +3,7 @@ import axios from 'axios';
 class BaseApi {
 
     config = {
-        baseURL: 'http://localhost/',
+        baseURL: 'http://localhost:3001/',
         headers: {
             'Authorization': 'teste'
         }
@@ -17,3 +17,5 @@ class BaseApi {
         return axios.post(url, data, this.config);
     }
 }
+
+export default BaseApi;

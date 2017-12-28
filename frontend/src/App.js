@@ -15,6 +15,9 @@ import ChevronRightIcon from 'material-ui-icons/ChevronRight';
 import { MuiThemeProvider } from 'material-ui/styles';
 import { ListItem, ListItemText } from 'material-ui/List';
 import theme from './theme';
+import PostList from './components/PostList';
+import { Switch, Route } from 'react-router-dom'
+import CategoryList from "./components/CategoryList";
 
 const drawerWidth = 240;
 
@@ -101,20 +104,6 @@ const styles = theme => ({
     }
 });
 
-export const menuItems = (
-    <div>
-        <ListItem button>
-            <ListItemText primary="Category 1" />
-        </ListItem>
-        <ListItem button>
-            <ListItemText primary="Category 2" />
-        </ListItem>
-        <ListItem button>
-            <ListItemText primary="Category 3" />
-        </ListItem>
-    </div>
-);
-
 class App extends React.Component {
     state = {
         open: false,
@@ -171,7 +160,7 @@ class App extends React.Component {
                                     </IconButton>
                                 </div>
                                 <Divider />
-                                <List className={classes.list}>{menuItems}</List>
+                                <CategoryList/>
                             </div>
                         </Drawer>
 
@@ -180,6 +169,9 @@ class App extends React.Component {
                                 [classes.contentOpen]: open
                             })}
                         >
+                            <Switch>
+                                <Route exact path='/' component={PostList}/>
+                            </Switch>
                         </main>
                     </div>
                 </div>

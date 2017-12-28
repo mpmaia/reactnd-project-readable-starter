@@ -3,6 +3,7 @@ import { withStyles } from 'material-ui/styles';
 import ExpansionPanel, { ExpansionPanelDetails, ExpansionPanelSummary } from 'material-ui/ExpansionPanel';
 import Typography from 'material-ui/Typography';
 import ExpandMoreIcon from 'material-ui-icons/ExpandMore';
+import PropTypes from "prop-types";
 
 const styles = theme => ({
     root: {
@@ -19,22 +20,22 @@ const styles = theme => ({
     }
 });
 
-class Posts extends React.Component {
+class Post extends React.Component {
 
     render() {
-        const { classes } = this.props;
+        const { classes, post } = this.props;
 
         return (
             <ExpansionPanel>
                 <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
-                    <Typography className={classes.heading}>Users</Typography>
+                    <Typography className={classes.heading}>{post.author}</Typography>
                     <Typography className={classes.secondaryHeading}>
-                        Post Title
+                        {post.title}
                     </Typography>
                 </ExpansionPanelSummary>
                 <ExpansionPanelDetails>
                     <Typography>
-                        Post Body
+                        {post.body}
                     </Typography>
                 </ExpansionPanelDetails>
             </ExpansionPanel>
@@ -42,4 +43,9 @@ class Posts extends React.Component {
     }
 }
 
-export default withStyles(styles)(Posts);
+Post.propTypes = {
+    classes: PropTypes.object.isRequired,
+    post: PropTypes.object.isRequired,
+};
+
+export default withStyles(styles)(Post);
