@@ -7,7 +7,19 @@ class PostsApi extends BaseApi {
     }
 
     getPostByCategory(category) {
-        return this.get(`/${category}/posts`)
+        return this.get(`/${category}/posts`);
+    }
+
+    upVote(post) {
+        return this.post(`/posts/${post.id}`, {option: 'upVote'});
+    }
+
+    downVote(post) {
+        return this.post(`/posts/${post.id}`, {option: 'downVote'});
+    }
+
+    deletePost(post) {
+        return this.delete(`/posts/${post.id}`);
     }
 }
 

@@ -5,7 +5,6 @@ import classNames from 'classnames';
 import Drawer from 'material-ui/Drawer';
 import AppBar from 'material-ui/AppBar';
 import Toolbar from 'material-ui/Toolbar';
-import List from 'material-ui/List';
 import Typography from 'material-ui/Typography';
 import Divider from 'material-ui/Divider';
 import IconButton from 'material-ui/IconButton';
@@ -13,7 +12,6 @@ import MenuIcon from 'material-ui-icons/Menu';
 import ChevronLeftIcon from 'material-ui-icons/ChevronLeft';
 import ChevronRightIcon from 'material-ui-icons/ChevronRight';
 import { MuiThemeProvider } from 'material-ui/styles';
-import { ListItem, ListItemText } from 'material-ui/List';
 import theme from './theme';
 import PostList from './components/PostList';
 import { Switch, Route } from 'react-router-dom'

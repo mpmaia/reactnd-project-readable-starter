@@ -16,6 +16,10 @@ class BaseApi {
     post(url, data) {
         return axios.post(url, data, this.config);
     }
+
+    delete(url) {
+        return axios.delete(url, this.config);
+    }
 }
 
 export default BaseApi;
