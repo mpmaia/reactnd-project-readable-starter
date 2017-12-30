@@ -7,6 +7,7 @@ export const POSTS_LOADED = 'POSTS_LOADED';
 export const CONFIRM_POST_DELETE = 'CONFIRM_POST_DELETE';
 export const POST_LOADED = 'POST_LOADED';
 export const COMMENTS_LOADED = 'COMMENTS_LOADED';
+export const CONFIRM_COMMENT_DELETE = 'CONFIRM_COMMENT_DELETE';
 
 export function fetchPosts() {
     return (dispatch) => {
@@ -70,6 +71,17 @@ export function deletePost(post) {
     };
 }
 
+export function deleteComment(comment) {
+    return (dispatch) => {
+        CommentsApi
+            .deleteComment(comment)
+            .then(response => {
+                dispatch(cancelDeleteComment());
+                dispatch(fetchPostComments(comment.parentId));
+            });
+    };
+}
+
 export function fetchCategories() {
     return (dispatch) => {
         CategoriesApi
@@ -121,6 +133,14 @@ export function confirmDeletePost(post) {
     return { type: CONFIRM_POST_DELETE, post };
 }
 
+export function confirmDeleteComment(comment) {
+    return { type: CONFIRM_COMMENT_DELETE, comment };
+}
+
 export function cancelDeletePost() {
     return { type: CONFIRM_POST_DELETE, post: null };
+}
+
+export function cancelDeleteComment() {
+    return { type: CONFIRM_COMMENT_DELETE, comment: null };
 }

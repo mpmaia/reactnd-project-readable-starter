@@ -1,6 +1,6 @@
 import React from "react";
 import { connect } from 'react-redux';
-import {fetchPost} from '../redux/actions';
+import {fetchPost, deleteComment, cancelDeleteComment} from '../redux/actions';
 import PropTypes from "prop-types";
 import { withStyles } from 'material-ui/styles';
 import {CircularProgress, Paper} from "material-ui";
@@ -12,6 +12,7 @@ import IconButton from 'material-ui/IconButton';
 import blue from 'material-ui/colors/blue';
 import moment from 'moment';
 import Comment from "./Comment";
+import ConfirmDialog from "./ConfirmDialog";
 
 const styles = theme => ({
     card: {
@@ -31,8 +32,16 @@ class PostDetails extends React.Component {
         this.props.fetchPost(this.props.match.params.postId);
     }
 
+    confirmCommentRemoval(shouldDelete) {
+        if(shouldDelete) {
+            this.props.deleteComment(this.props.commentToDelete);
+        } else {
+            this.props.cancelDeleteComment();
+        }
+    }
+
     render() {
-        const { post, classes, comments } = this.props;
+        const { post, classes, comments, commentToDelete } = this.props;
         console.log(this.props);
 
         if(!post) {
@@ -68,6 +77,12 @@ class PostDetails extends React.Component {
                         return (<Comment comment={comment}></Comment>)
                     })
                 }
+                <ConfirmDialog title="Delete comment?"
+                               question="Do you really want to delete the comment?"
+                               open={commentToDelete}
+                               onConfirm={() => this.confirmCommentRemoval(true)}
+                               onCancel={() => this.confirmCommentRemoval(false)}
+                />
             </div>
         );
     }
@@ -82,13 +97,16 @@ PostDetails.propTypes = {
 const mapStateToProps = (state) => {
     return {
         post: state.post,
-        comments: state.comments
+        comments: state.comments,
+        commentToDelete: state.commentToDelete
     };
 };
 
 const mapDispatchToProps = (dispatch) => {
     return {
         fetchPost: (id) => dispatch(fetchPost(id)),
+        deleteComment: (comment) => dispatch(deleteComment(comment)),
+        cancelDeleteComment: () => dispatch(cancelDeleteComment())
     };
 };
 

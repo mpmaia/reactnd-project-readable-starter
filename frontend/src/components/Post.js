@@ -44,7 +44,7 @@ const styles = theme => ({
 class Post extends React.Component {
 
     render() {
-        const { classes, post, upVote, downVote, confirmDeletePost } = this.props;
+        const { classes, post, upVote, downVote, deletePost } = this.props;
 
         return (
             <ListItem>
@@ -69,7 +69,7 @@ class Post extends React.Component {
                         <IconButton className={classes.button} component={Link} to={`/${post.category}/${post.id}`}>
                             <ModeEdit />
                         </IconButton>
-                        <IconButton className={classes.button} onClick={() => confirmDeletePost(post)}>
+                        <IconButton className={classes.button} onClick={() => deletePost(post)}>
                             <Delete />
                         </IconButton>
                     </Typography>
@@ -88,7 +88,7 @@ const mapDispatchToProps = (dispatch) => {
     return {
         upVote: (post) => dispatch(upVotePost(post)),
         downVote: (post) => dispatch(downVotePost(post)),
-        confirmDeletePost: (post) => dispatch(confirmDeletePost(post))
+        deletePost: (post) => dispatch(confirmDeletePost(post))
     };
 };
 
