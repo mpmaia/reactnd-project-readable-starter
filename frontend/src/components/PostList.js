@@ -5,13 +5,7 @@ import {fetchPosts, deletePost, cancelDeletePost} from '../redux/actions';
 import PropTypes from "prop-types";
 import { withStyles } from 'material-ui/styles';
 import List from 'material-ui/List';
-import Dialog, {
-    DialogActions,
-    DialogContent,
-    DialogContentText,
-    DialogTitle,
-} from 'material-ui/Dialog';
-import Button from 'material-ui/Button';
+import ConfirmDialog from "./ConfirmDialog";
 
 const styles = theme => ({
     root: {
@@ -44,27 +38,12 @@ class PostList extends React.Component {
                         posts && posts.map(p => <Post key={p.id} post={p}></Post>)
                     }
                 </List>
-                <Dialog
-                    open={postToDelete}
-                    onClose={() => this.handleDialogClose(false)}
-                    aria-labelledby="alert-dialog-title"
-                    aria-describedby="alert-dialog-description"
-                >
-                    <DialogTitle id="alert-dialog-title">Delete post?</DialogTitle>
-                    <DialogContent>
-                        <DialogContentText id="alert-dialog-description">
-                            Do you really want to delete the post?
-                        </DialogContentText>
-                    </DialogContent>
-                    <DialogActions>
-                        <Button onClick={() => this.handleDialogClose(false)} color="primary">
-                            No
-                        </Button>
-                        <Button onClick={() => this.handleDialogClose(true)} color="primary" autoFocus>
-                            Yes
-                        </Button>
-                    </DialogActions>
-                </Dialog>
+                <ConfirmDialog title="Delete post?"
+                               question="Do you really want to delete the post?"
+                               open={postToDelete}
+                               onConfirm={() => this.handleDialogClose(true)}
+                               onCancel={() => this.handleDialogClose(false)}
+                />
             </div>
         );
     }

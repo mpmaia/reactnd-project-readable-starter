@@ -64,6 +64,7 @@ export function deletePost(post) {
         PostsApi
             .deletePost(post)
             .then(response => {
+                dispatch(cancelDeletePost());
                 dispatch(fetchPosts());
             });
     };
