@@ -16,16 +16,16 @@ import theme from './theme';
 import PostList from './components/PostList';
 import { Switch, Route } from 'react-router-dom'
 import CategoryList from "./components/CategoryList";
+import PostDetails from "./components/PostDetails";
 
 const drawerWidth = 240;
 
 const styles = theme => ({
     root: {
         width: '100%',
-        height: 600,
         marginTop: 0,
-        zIndex: 1,
-        overflow: 'hidden',
+        minHeight: '600px',
+        zIndex: 1
     },
     appFrame: {
         position: 'relative',
@@ -77,7 +77,6 @@ const styles = theme => ({
     content: {
         width: '100%',
         flexGrow: 1,
-        backgroundColor: theme.palette.background.default,
         padding: theme.spacing.unit * 3,
         transition: theme.transitions.create('margin', {
             easing: theme.transitions.easing.sharp,
@@ -169,6 +168,7 @@ class App extends React.Component {
                         >
                             <Switch>
                                 <Route exact path='/' component={PostList}/>
+                                <Route exact path='/:category/:postId' component={PostDetails}/>
                             </Switch>
                         </main>
                     </div>
@@ -179,8 +179,7 @@ class App extends React.Component {
 }
 
 App.propTypes = {
-    classes: PropTypes.object.isRequired,
-    theme: PropTypes.object.isRequired,
+    classes: PropTypes.object.isRequired
 };
 
 export default withStyles(styles)(App);

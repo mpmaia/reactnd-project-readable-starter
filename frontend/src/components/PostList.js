@@ -41,7 +41,7 @@ class PostList extends React.Component {
             <div>
                 <List className={classes.root}>
                     {
-                        posts && posts.map(p => <Post post={p}></Post>)
+                        posts && posts.map(p => <Post key={p.id} post={p}></Post>)
                     }
                 </List>
                 <Dialog

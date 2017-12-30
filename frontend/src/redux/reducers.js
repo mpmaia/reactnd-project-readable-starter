@@ -1,4 +1,4 @@
-import {CATEGORIES_LOADED, POSTS_LOADED, CONFIRM_POST_DELETE} from './actions';
+import {CATEGORIES_LOADED, POSTS_LOADED, CONFIRM_POST_DELETE, POST_LOADED, COMMENTS_LOADED} from './actions';
 import { combineReducers } from 'redux';
 
 
@@ -20,6 +20,24 @@ function posts(state = [], action) {
     }
 }
 
+function post(state = null, action) {
+    switch (action.type) {
+        case POST_LOADED:
+            return action.post;
+        default:
+            return state
+    }
+}
+
+function comments(state = [], action) {
+    switch (action.type) {
+        case COMMENTS_LOADED:
+            return action.comments;
+        default:
+            return state
+    }
+}
+
 function postToDelete(state = null, action) {
     switch (action.type) {
         case CONFIRM_POST_DELETE:
@@ -32,5 +50,7 @@ function postToDelete(state = null, action) {
 export default combineReducers({
     categories,
     posts,
+    post,
+    comments,
     postToDelete
 });

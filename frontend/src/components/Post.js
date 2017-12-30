@@ -8,9 +8,10 @@ import ThumbDown from 'material-ui-icons/ThumbDown';
 import ThumbUp from 'material-ui-icons/ThumbUp';
 import ModeEdit from 'material-ui-icons/ModeEdit';
 import Delete from 'material-ui-icons/Delete';
-import Badge from 'material-ui/Badge';
-import {upVote, downVote, confirmDeletePost} from '../redux/actions';
+import {upVotePost, downVotePost, confirmDeletePost} from '../redux/actions';
 import {connect} from "react-redux";
+import {Link} from "react-router-dom";
+import {Divider} from "material-ui";
 
 const styles = theme => ({
     heading: {
@@ -28,10 +29,6 @@ const styles = theme => ({
     },
     line: {
         flexBasis: '100%',
-    },
-    badge: {
-        width: '40px',
-        margin: '5px'
     },
     author: {
         fontSize: theme.typography.pxToRem(15),
@@ -51,10 +48,6 @@ class Post extends React.Component {
 
         return (
             <ListItem>
-                <div className={classes.badge}>
-                    <Badge badgeContent={post.voteScore} color="accent">
-                    </Badge>
-                </div>
                 <div className={classes.column}>
                     <Typography className={classes.heading}><a href="">{post.title}</a></Typography>
                     <Typography className={classes.author}>{post.author}</Typography>
@@ -63,16 +56,17 @@ class Post extends React.Component {
                     <Typography className={classes.secondaryHeading}>{post.commentCount} comments</Typography>
                 </div>
                 <div className={classes.column}>
-                    <IconButton className={classes.button} onClick={() => upVote(post)}>
-                        <ThumbUp />
-                    </IconButton>
                     <IconButton className={classes.button} onClick={() => downVote(post)}>
                         <ThumbDown />
+                    </IconButton>
+                    {post.voteScore}
+                    <IconButton className={classes.button} onClick={() => upVote(post)}>
+                        <ThumbUp />
                     </IconButton>
                 </div>
                 <div className={classes.column}>
                     <Typography type="caption">
-                        <IconButton className={classes.button}>
+                        <IconButton className={classes.button} component={Link} to={`/${post.category}/${post.id}`}>
                             <ModeEdit />
                         </IconButton>
                         <IconButton className={classes.button} onClick={() => confirmDeletePost(post)}>
@@ -92,8 +86,8 @@ Post.propTypes = {
 
 const mapDispatchToProps = (dispatch) => {
     return {
-        upVote: (post) => dispatch(upVote(post)),
-        downVote: (post) => dispatch(downVote(post)),
+        upVote: (post) => dispatch(upVotePost(post)),
+        downVote: (post) => dispatch(downVotePost(post)),
         confirmDeletePost: (post) => dispatch(confirmDeletePost(post))
     };
 };

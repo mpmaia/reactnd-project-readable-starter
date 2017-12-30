@@ -6,6 +6,14 @@ class PostsApi extends BaseApi {
         return this.get("/posts");
     }
 
+    getPost(id) {
+        return this.get(`/posts/${id}`);
+    }
+
+    getPostComments(id) {
+        return this.get(`/posts/${id}/comments`);
+    }
+
     getPostByCategory(category) {
         return this.get(`/${category}/posts`);
     }

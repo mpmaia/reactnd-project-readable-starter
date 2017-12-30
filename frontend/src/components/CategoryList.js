@@ -17,7 +17,7 @@ class CategoryList extends React.Component {
             <List>
                 {
                     categories && categories.map(c => (
-                        <ListItem button>
+                        <ListItem button key={c.name}>
                             <ListItemText primary={c.name}/>
                         </ListItem>
                     ))
@@ -28,7 +28,7 @@ class CategoryList extends React.Component {
 }
 
 CategoryList.propTypes = {
-    posts: PropTypes.array.isRequired
+    categories: PropTypes.array
 };
 
 const mapStateToProps = (state) => {
