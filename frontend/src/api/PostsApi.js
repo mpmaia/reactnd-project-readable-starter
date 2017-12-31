@@ -35,6 +35,10 @@ class PostsApi extends BaseApi {
         post.id = uuid();
         return this.post('/posts', post);
     }
+
+    editPost(post) {
+        return this.put(`/posts/${post.id}`, post);
+    }
 }
 
 export default new PostsApi();

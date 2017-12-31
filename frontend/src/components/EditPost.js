@@ -56,12 +56,26 @@ class EditPost extends React.Component {
             return;
         }
 
-        this.props.onSave && this.props.onSave({
-            title: this.state.title,
-            author: this.state.title,
-            body: this.state.body,
-            category: this.state.category
-        });
+        var postData = {};
+
+        if(this.props.post) {
+            //editing
+            postData = {
+                title: this.state.title,
+                body: this.state.body,
+                id: this.props.post.id
+            };
+        } else {
+            //creating
+            postData = {
+                title: this.state.title,
+                body: this.state.body,
+                author: this.state.title,
+                category: this.state.category
+            };
+        }
+
+        this.props.onSave && this.props.onSave(postData);
 
         this.clearState();
     }
@@ -100,7 +114,12 @@ class EditPost extends React.Component {
 
     render() {
 
-        const { open, categories } = this.props;
+        const { open, categories, post } = this.props;
+
+        var creating = true;
+        if(post) {
+            creating = false;
+        }
 
         return (
             <div>
@@ -109,11 +128,13 @@ class EditPost extends React.Component {
                     onClose={() => this.handleClose}
                     aria-labelledby="form-dialog-title"
                 >
-                    <DialogTitle id="form-dialog-title">Create new post</DialogTitle>
+                    <DialogTitle id="form-dialog-title">
+                        {creating?"Create new post":"Edit post"}
+                    </DialogTitle>
                     <DialogContent>
 
                         <DialogContentText>
-                            Fill the form below to create a new post
+                            Fill the form below to { creating ? "create a new post" : "edit the post" }
                         </DialogContentText>
 
                         <TextField
@@ -129,33 +150,38 @@ class EditPost extends React.Component {
                             onChange={(e) => this.handleChange("title", e.target.value)}
 
                         />
-                        <TextField
-                            margin="normal"
-                            id="name"
-                            label="Author"
-                            type="text"
-                            value={this.state.author}
-                            error={!!this.state.authorError}
-                            helperText={this.state.authorError}
-                            onChange={(e) => this.handleChange("author", e.target.value)}
-                        />
-                        <FormControl fullWidth margin="normal" error={!!this.state.categoryError}>
-                            <InputLabel htmlFor="name">Category</InputLabel>
-                            <Select
-                                value={this.state.category}
-                                onChange={(e) => this.handleChange("category", e.target.value)}
-                                input={<Input name="name" id="name-disabled" />}
-                                label="Category"
-                            >
-                                <MenuItem value="">None</MenuItem>
-                                { categories &&
-                                  categories.map(category =>
-                                      <MenuItem key={category.name} value={category.name}>{category.name}</MenuItem>
-                                  )
-                                }
-                            </Select>
-                            <FormHelperText>{this.state.categoryError}</FormHelperText>
-                        </FormControl>
+
+                        {creating &&
+                            <div>
+                                <TextField
+                                    margin="normal"
+                                    id="name"
+                                    label="Author"
+                                    type="text"
+                                    value={this.state.author}
+                                    error={!!this.state.authorError}
+                                    helperText={this.state.authorError}
+                                    onChange={(e) => this.handleChange("author", e.target.value)}
+                                />
+                                <FormControl fullWidth margin="normal" error={!!this.state.categoryError}>
+                                    <InputLabel htmlFor="name">Category</InputLabel>
+                                    <Select
+                                        value={this.state.category}
+                                        onChange={(e) => this.handleChange("category", e.target.value)}
+                                        input={<Input name="name" id="name-disabled" />}
+                                        label="Category"
+                                    >
+                                        <MenuItem value="">None</MenuItem>
+                                        { categories &&
+                                        categories.map(category =>
+                                            <MenuItem key={category.name} value={category.name}>{category.name}</MenuItem>
+                                        )
+                                        }
+                                    </Select>
+                                    <FormHelperText>{this.state.categoryError}</FormHelperText>
+                                </FormControl>
+                            </div>
+                        }
 
                         <TextField
                             id="multiline-static"

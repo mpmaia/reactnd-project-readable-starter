@@ -81,6 +81,16 @@ export function addPost(post) {
     };
 }
 
+export function editPost(post) {
+    return (dispatch) => {
+        PostsApi
+            .editPost(post)
+            .then(response => {
+                dispatch(fetchPost(post.id));
+            });
+    };
+}
+
 export function deleteComment(comment) {
     return (dispatch) => {
         CommentsApi

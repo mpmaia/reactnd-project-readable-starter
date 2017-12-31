@@ -17,6 +17,10 @@ class BaseApi {
         return axios.post(url, data, this.config);
     }
 
+    put(url, data) {
+        return axios.put(url, data, this.config);
+    }
+
     delete(url) {
         return axios.delete(url, this.config);
     }
