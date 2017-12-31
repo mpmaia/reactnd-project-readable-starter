@@ -102,7 +102,7 @@ class PostDetails extends React.Component {
                 </Card>
                 {
                     comments && comments.map(comment => {
-                        return (<Comment comment={comment}></Comment>)
+                        return (<Comment key={comment.id} comment={comment}></Comment>)
                     })
                 }
                 <div className={classes.actions}>

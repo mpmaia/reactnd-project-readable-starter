@@ -21,13 +21,13 @@ class EditComment extends React.Component {
 
     handleClose(save) {
         if(save) {
-            this.savePost();
+            this.saveComment();
         } else {
             this.props.onCancel();
         }
     }
 
-    savePost() {
+    saveComment() {
 
         if(!this.state.author) {
             this.fieldError('author');
@@ -45,7 +45,8 @@ class EditComment extends React.Component {
             //editing
             commentData = {
                 body: this.state.body,
-                id: this.props.post.id
+                id: this.props.comment.id,
+                parentId: this.props.comment.parentId
             };
         } else {
             //creating
@@ -103,7 +104,7 @@ class EditComment extends React.Component {
             <div>
                 <Dialog
                     open={open}
-                    onClose={() => this.handleClose}
+                    onClose={() => this.handleClose(false)}
                     aria-labelledby="form-dialog-title"
                 >
                     <DialogTitle id="form-dialog-title">

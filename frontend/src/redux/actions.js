@@ -91,6 +91,16 @@ export function addComment(comment, post) {
     };
 }
 
+export function editComment(comment) {
+    return (dispatch) => {
+        PostsApi
+            .editComment(comment)
+            .then(response => {
+                dispatch(fetchPostComments(comment.parentId));
+            });
+    };
+}
+
 export function editPost(post) {
     return (dispatch) => {
         PostsApi

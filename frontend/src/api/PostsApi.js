@@ -44,6 +44,10 @@ class PostsApi extends BaseApi {
         return this.post('/comments', comment);
     }
 
+    editComment(comment) {
+        return this.put(`/comments/${comment.id}`, comment);
+    }
+
     editPost(post) {
         return this.put(`/posts/${post.id}`, post);
     }
