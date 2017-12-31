@@ -62,6 +62,17 @@ class EditPost extends React.Component {
             body: this.state.body,
             category: this.state.category
         });
+
+        this.clearState();
+    }
+
+    clearState() {
+        this.setState({
+            title: '',
+            author: '',
+            body: '',
+            category: ''
+        });
     }
 
     handleChange(key, value) {
@@ -77,14 +88,19 @@ class EditPost extends React.Component {
         this.setState({ [field + "Error"]: this.requiredMessage });
     }
 
-    componentDidMount() {
-        if(this.props.post)
-            this.setState(this.props.post);
+    componentWillReceiveProps(nextProps)
+    {
+        //Wordaround to check if dialog is opening
+        if(this.props.open === false && nextProps.open === true)
+        {
+            if(this.props.post)
+                this.setState(this.props.post);
+        }
     }
 
     render() {
 
-        const { open, categories, post } = this.props;
+        const { open, categories } = this.props;
 
         return (
             <div>
