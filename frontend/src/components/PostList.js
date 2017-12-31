@@ -1,20 +1,37 @@
 import React from "react";
 import { connect } from 'react-redux';
 import Post from './Post';
-import {fetchPosts, deletePost, cancelDeletePost} from '../redux/actions';
+import {fetchPosts, deletePost, cancelDeletePost, addPost} from '../redux/actions';
 import PropTypes from "prop-types";
 import { withStyles } from 'material-ui/styles';
 import List from 'material-ui/List';
 import ConfirmDialog from "./ConfirmDialog";
+import {Button} from "material-ui";
+import AddIcon from 'material-ui-icons/Add';
+import EditPost from "./EditPost";
 
 const styles = theme => ({
     root: {
         width: '100%',
         background: theme.palette.background.paper,
+    },
+    flexGrow: {
+        flex: '1 1 auto',
+    },
+    actions: {
+        display: 'flex',
+        justifyContent: 'space-between'
+    },
+    addButton: {
+        marginRight: '50px'
     }
 });
 
 class PostList extends React.Component {
+
+    state = {
+        addingPost: false
+    };
 
     handleDialogClose(shouldDelete) {
         if(shouldDelete) {
@@ -26,6 +43,19 @@ class PostList extends React.Component {
 
     componentDidMount() {
         this.props.fetchPosts();
+    }
+
+    createNewPost() {
+        this.setState({addingPost: true});
+    }
+
+    handleAddPost(post) {
+        this.props.addPost(post);
+        this.setState({addingPost: false});
+    }
+
+    handleCancelAddPost() {
+        this.setState({addingPost: false});
     }
 
     render() {
@@ -44,6 +74,15 @@ class PostList extends React.Component {
                                onConfirm={() => this.handleDialogClose(true)}
                                onCancel={() => this.handleDialogClose(false)}
                 />
+                <div className={classes.actions}>
+                    <div className={classes.flexGrow} />
+                    <Button fab color="primary" aria-label="add" className={classes.addButton} onClick={() => this.createNewPost()}>
+                        <AddIcon />
+                    </Button>
+                </div>
+                <EditPost open={this.state.addingPost}
+                          onSave={(p) => this.handleAddPost(p)}
+                          onCancel={() => this.handleCancelAddPost(false)}/>
             </div>
         );
     }
@@ -64,7 +103,8 @@ const mapDispatchToProps = (dispatch) => {
     return {
         fetchPosts: () => dispatch(fetchPosts()),
         deletePost: (post) => dispatch(deletePost(post)),
-        cancelDeletePost: () => dispatch(cancelDeletePost())
+        cancelDeletePost: () => dispatch(cancelDeletePost()),
+        addPost: (post) => dispatch(addPost(post))
     };
 };
 

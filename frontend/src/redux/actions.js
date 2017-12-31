@@ -71,6 +71,16 @@ export function deletePost(post) {
     };
 }
 
+export function addPost(post) {
+    return (dispatch) => {
+        PostsApi
+            .addPost(post)
+            .then(response => {
+                dispatch(fetchPosts());
+            });
+    };
+}
+
 export function deleteComment(comment) {
     return (dispatch) => {
         CommentsApi
@@ -87,7 +97,7 @@ export function fetchCategories() {
         CategoriesApi
             .getCategories()
             .then(response => {
-                dispatch(categoriesLoaded(response.data));
+                dispatch(categoriesLoaded(response.data.categories));
             });
     };
 }

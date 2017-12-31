@@ -68,7 +68,6 @@ class Comment extends React.Component {
                     <IconButton className={classes.button} onClick={() => upVote(comment)}>
                         <ThumbUp />
                     </IconButton>
-
                 </CardActions>
             </Card>
         );

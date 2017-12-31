@@ -50,7 +50,7 @@ class ConfirmDialog extends React.Component {
 ConfirmDialog.propTypes = {
     title: PropTypes.string.isRequired,
     question: PropTypes.string.isRequired,
-    open: PropTypes.bool.isRequired,
+    open: PropTypes.bool,
     onConfirm: PropTypes.func,
     onCancel: PropTypes.func
 };

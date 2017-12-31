@@ -1,4 +1,5 @@
 import BaseApi from './BaseApi';
+import uuid from 'uuid/v1';
 
 class PostsApi extends BaseApi {
 
@@ -28,6 +29,11 @@ class PostsApi extends BaseApi {
 
     deletePost(post) {
         return this.delete(`/posts/${post.id}`);
+    }
+
+    addPost(post) {
+        post.id = uuid();
+        return this.post('/posts', post);
     }
 }
 
