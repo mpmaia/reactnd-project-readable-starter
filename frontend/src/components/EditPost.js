@@ -70,7 +70,7 @@ class EditPost extends React.Component {
             postData = {
                 title: this.state.title,
                 body: this.state.body,
-                author: this.state.title,
+                author: this.state.author,
                 category: this.state.category
             };
         }
@@ -104,7 +104,7 @@ class EditPost extends React.Component {
 
     componentWillReceiveProps(nextProps)
     {
-        //Wordaround to check if dialog is opening
+        //Workaround to check if dialog is opening
         if(this.props.open === false && nextProps.open === true)
         {
             if(this.props.post)

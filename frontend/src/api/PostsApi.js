@@ -33,7 +33,15 @@ class PostsApi extends BaseApi {
 
     addPost(post) {
         post.id = uuid();
+        post.timestamp = new Date();
         return this.post('/posts', post);
+    }
+
+    addComment(comment, post) {
+        comment.id = uuid();
+        comment.timestamp = new Date();
+        comment.parentId = post.id;
+        return this.post('/comments', comment);
     }
 
     editPost(post) {
