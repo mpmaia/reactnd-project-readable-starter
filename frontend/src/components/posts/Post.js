@@ -1,8 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { withStyles } from 'material-ui/styles';
-import { ListItem } from 'material-ui/List';
-import Typography from 'material-ui/Typography';
 import IconButton from 'material-ui/IconButton';
 import ThumbDown from 'material-ui-icons/ThumbDown';
 import ThumbUp from 'material-ui-icons/ThumbUp';
@@ -11,20 +9,23 @@ import Delete from 'material-ui-icons/Delete';
 import {upVotePost, downVotePost, confirmDeletePost} from '../../redux/actions/index';
 import {connect} from "react-redux";
 import {Link} from "react-router-dom";
+import {Avatar, Card, CardActions, CardHeader} from "material-ui";
+import moment from "moment";
+import blue from "material-ui/colors/blue";
 
 const styles = theme => ({
-    heading: {
-        fontSize: theme.typography.pxToRem(15),
-        overflow: 'hidden',
-        textOverflow: 'ellipsis',
-
+    card: {
+        maxWidth: '100%',
     },
-    secondaryHeading: {
-        fontSize: theme.typography.pxToRem(15),
-        color: theme.palette.text.secondary,
+    avatar: {
+        backgroundColor: blue[500],
     },
-    column: {
-        flexBasis: '25%',
+    spacing: {
+        width: '50px',
+    },
+    actions: {
+        display: 'flex',
+        justifyContent: 'space-between'
     },
     line: {
         flexBasis: '100%',
@@ -46,34 +47,35 @@ class Post extends React.Component {
         const { classes, post, upVote, downVote, deletePost } = this.props;
 
         return (
-            <ListItem>
-                <div className={classes.column}>
-                    <Typography className={classes.heading}><a href="">{post.title}</a></Typography>
-                    <Typography className={classes.author}>{post.author}</Typography>
-                </div>
-                <div className={classes.column}>
-                    <Typography className={classes.secondaryHeading}>{post.commentCount} comments</Typography>
-                </div>
-                <div className={classes.column}>
-                    <IconButton className={classes.button} onClick={() => downVote(post)}>
-                        <ThumbDown />
-                    </IconButton>
-                    {post.voteScore}
-                    <IconButton className={classes.button} onClick={() => upVote(post)}>
-                        <ThumbUp />
-                    </IconButton>
-                </div>
-                <div className={classes.column}>
-                    <Typography type="caption">
-                        <IconButton className={classes.button} component={Link} to={`/${post.category}/${post.id}`}>
-                            <ModeEdit />
-                        </IconButton>
-                        <IconButton className={classes.button} onClick={() => deletePost(post)}>
-                            <Delete />
-                        </IconButton>
-                    </Typography>
-                </div>
-            </ListItem>
+            <Card className={classes.card}>
+                <CardHeader
+                    avatar={
+                        <Avatar aria-label="Author" className={classes.avatar}>
+                            {post.author.charAt(0).toUpperCase()}
+                        </Avatar>
+                    }
+                    action={
+                        <CardActions disableActionSpacing>
+                            <IconButton aria-label="Edit Post" onClick={() => this.setState({editingPost: true})}>
+                                <ModeEdit />
+                            </IconButton>
+                            <IconButton className={classes.button} onClick={() => deletePost(post)}>
+                                <Delete />
+                            </IconButton>
+                            <div className={classes.spacing} />
+                            <IconButton className={classes.button} onClick={() => downVote(post)}>
+                                <ThumbDown />
+                            </IconButton>
+                            {post.voteScore}
+                            <IconButton className={classes.button} onClick={() => upVote(post)}>
+                                <ThumbUp />
+                            </IconButton>
+                        </CardActions>
+                    }
+                    title={(<Link to={`/${post.category}/${post.id}`}>{post.title}</Link>)}
+                    subheader={`${post.author} - ${moment(post.timestamp).format('MMMM D, YYYY')}`}
+                />
+            </Card>
         );
     }
 }

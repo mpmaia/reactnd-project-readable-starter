@@ -4,7 +4,6 @@ import Post from './Post';
 import {fetchPosts, deletePost, cancelDeletePost, addPost, fetchPostsByCategory, postOrderBy} from '../../redux/actions';
 import PropTypes from "prop-types";
 import { withStyles } from 'material-ui/styles';
-import List from 'material-ui/List';
 import ConfirmDialog from "../utils/ConfirmDialog";
 import {Button, FormControl, Input, InputLabel, Select} from "material-ui";
 import AddIcon from 'material-ui-icons/Add';
@@ -25,10 +24,12 @@ const styles = theme => ({
         justifyContent: 'space-between'
     },
     addButton: {
-        marginRight: '50px'
+        marginTop: '20px',
+        marginRight: '20px'
     },
     orderBySelect: {
-        marginRight: '50px'
+        marginRight: '20px',
+        width: '100px'
     }
 });
 
@@ -51,7 +52,7 @@ class PostList extends React.Component {
          * React-router does not unmount the component when the params change. This is a workaround to detect
          * the change in the url and dispatch a new request if necessary
          */
-        if(this.props.match.params.category != newProps.match.params.category) {
+        if(this.props.match.params.category !== newProps.match.params.category) {
             this.loadPosts(newProps.match.params.category);
         }
     }
@@ -105,14 +106,14 @@ class PostList extends React.Component {
                         </Select>
                     </FormControl>
                 </div>
-                <List className={classes.root}>
+                <div className={classes.root}>
                     {
                         posts && posts
                             .sort(sortByKey(postOrderByField))
                             .reverse()
                             .map(p => <Post key={p.id} post={p}></Post>)
                     }
-                </List>
+                </div>
                 <ConfirmDialog title="Delete post?"
                                question="Do you really want to delete the post?"
                                open={postToDelete}
