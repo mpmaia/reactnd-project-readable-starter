@@ -16,6 +16,11 @@ class CategoryList extends React.Component {
         const { categories } = this.props;
         return (
             <List>
+                <ListItem button>
+                    <Link to='/'>
+                        <ListItemText primary="All"/>
+                    </Link>
+                </ListItem>
                 {
                     categories && categories.map(c => (
                         <ListItem button key={c.name}>

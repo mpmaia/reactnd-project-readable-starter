@@ -1,14 +1,16 @@
 import React from "react";
 import { connect } from 'react-redux';
 import Post from './Post';
-import {fetchPosts, deletePost, cancelDeletePost, addPost, fetchPostsByCategory} from '../../redux/actions/index';
+import {fetchPosts, deletePost, cancelDeletePost, addPost, fetchPostsByCategory, postOrderBy} from '../../redux/actions';
 import PropTypes from "prop-types";
 import { withStyles } from 'material-ui/styles';
 import List from 'material-ui/List';
 import ConfirmDialog from "../utils/ConfirmDialog";
-import {Button} from "material-ui";
+import {Button, FormControl, Input, InputLabel, Select} from "material-ui";
 import AddIcon from 'material-ui-icons/Add';
 import EditPost from "./EditPost";
+import {sortByKey} from "../../util/compare";
+import withRouter from "react-router-dom/es/withRouter";
 
 const styles = theme => ({
     root: {
@@ -23,6 +25,9 @@ const styles = theme => ({
         justifyContent: 'space-between'
     },
     addButton: {
+        marginRight: '50px'
+    },
+    orderBySelect: {
         marginRight: '50px'
     }
 });
@@ -41,17 +46,19 @@ class PostList extends React.Component {
         }
     }
 
-    componentDidUpdate(prevProps, prevState) {
-        this.loadPosts();
+    componentWillReceiveProps(newProps) {
+        if(this.props.match.params.category != newProps.match.params.category) {
+            this.loadPosts(newProps.match.params.category);
+        }
     }
 
     componentDidMount() {
         this.loadPosts();
     }
 
-    loadPosts() {
-        if(this.props.match.params.category) {
-            this.props.fetchPostsByCategory(this.props.match.params.category);
+    loadPosts(category) {
+        if(category) {
+            this.props.fetchPostsByCategory(category);
         } else {
             this.props.fetchPosts();
         }
@@ -70,14 +77,36 @@ class PostList extends React.Component {
         this.setState({addingPost: false});
     }
 
+    handleOrderBy(e) {
+        this.props.postOrderBy(e.target.value);
+    }
+
     render() {
-        const { posts, classes, postToDelete } = this.props;
+        const { posts, classes, postToDelete, postOrderByField } = this.props;
 
         return (
             <div>
+                <div className={classes.actions}>
+                    <div className={classes.flexGrow} />
+                    <FormControl className={classes.orderBySelect}>
+                        <InputLabel>Order By</InputLabel>
+                        <Select
+                            native
+                            value={this.state.orderBy}
+                            onChange={(e) => this.handleOrderBy(e)}
+                            input={<Input/>}
+                        >
+                            <option value="voteScore">Score</option>
+                            <option value="timestamp">Date</option>
+                        </Select>
+                    </FormControl>
+                </div>
                 <List className={classes.root}>
                     {
-                        posts && posts.map(p => <Post key={p.id} post={p}></Post>)
+                        posts && posts
+                            .sort(sortByKey(postOrderByField))
+                            .reverse()
+                            .map(p => <Post key={p.id} post={p}></Post>)
                     }
                 </List>
                 <ConfirmDialog title="Delete post?"
@@ -107,7 +136,8 @@ PostList.propTypes = {
 const mapStateToProps = (state) => {
     return {
         posts: state.posts,
-        postToDelete: state.postToDelete
+        postToDelete: state.postToDelete,
+        postOrderByField: state.postOrderBy
     };
 };
 
@@ -117,8 +147,9 @@ const mapDispatchToProps = (dispatch) => {
         fetchPostsByCategory: (c) => dispatch(fetchPostsByCategory(c)),
         deletePost: (post) => dispatch(deletePost(post)),
         cancelDeletePost: () => dispatch(cancelDeletePost()),
-        addPost: (post) => dispatch(addPost(post))
+        addPost: (post) => dispatch(addPost(post)),
+        postOrderBy: (key) => dispatch(postOrderBy(key))
     };
 };
 
-export default withStyles(styles)(connect(mapStateToProps, mapDispatchToProps)(PostList))
+export default withStyles(styles)(connect(mapStateToProps, mapDispatchToProps)(withRouter(PostList)))

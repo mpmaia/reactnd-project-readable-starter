@@ -5,6 +5,7 @@ import {commentsLoaded} from "./comment";
 export const POSTS_LOADED = 'POSTS_LOADED';
 export const CONFIRM_POST_DELETE = 'CONFIRM_POST_DELETE';
 export const POST_LOADED = 'POST_LOADED';
+export const POSTS_ORDER_BY = 'POSTS_ORDER_BY';
 
 export function fetchPosts() {
     return (dispatch) => {
@@ -100,6 +101,10 @@ export function editPost(post) {
 
 export function postsLoaded(posts) {
     return { type: POSTS_LOADED, posts };
+}
+
+export function postOrderBy(field) {
+    return { type: POSTS_ORDER_BY, field };
 }
 
 export function postLoaded(post) {

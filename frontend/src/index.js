@@ -7,7 +7,7 @@ import registerServiceWorker from './registerServiceWorker';
 import getStore from './redux/store';
 import { BrowserRouter } from 'react-router-dom'
 
-const store = getStore({posts:[], categories:[]});
+const store = getStore({posts:[], categories:[], postOrderBy: 'voteScore'});
 
 ReactDOM.render(
     (
