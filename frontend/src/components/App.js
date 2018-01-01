@@ -149,9 +149,9 @@ class App extends React.Component {
                             anchor={anchor}
                             open={open}
                         >
-                            <div className={classes.drawerInner}>
+                            <div>
                                 <div className={classes.drawerHeader}>
-                                    <h2 className={classes.drawerLogo}>App Title</h2>
+                                    <h2 className={classes.drawerLogo}>Categories</h2>
                                     <IconButton onClick={this.handleDrawerClose}>
                                         {theme.direction === 'rtl' ? <ChevronRightIcon /> : <ChevronLeftIcon />}
                                     </IconButton>
@@ -168,6 +168,7 @@ class App extends React.Component {
                         >
                             <Switch>
                                 <Route exact path='/' component={PostList}/>
+                                <Route exact path='/:category' component={PostList}/>
                                 <Route exact path='/:category/:postId' component={PostDetails}/>
                             </Switch>
                         </main>

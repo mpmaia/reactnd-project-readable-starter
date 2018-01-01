@@ -1,7 +1,7 @@
 import React from "react";
 import { connect } from 'react-redux';
 import Post from './Post';
-import {fetchPosts, deletePost, cancelDeletePost, addPost} from '../../redux/actions/index';
+import {fetchPosts, deletePost, cancelDeletePost, addPost, fetchPostsByCategory} from '../../redux/actions/index';
 import PropTypes from "prop-types";
 import { withStyles } from 'material-ui/styles';
 import List from 'material-ui/List';
@@ -41,8 +41,20 @@ class PostList extends React.Component {
         }
     }
 
+    componentDidUpdate(prevProps, prevState) {
+        this.loadPosts();
+    }
+
     componentDidMount() {
-        this.props.fetchPosts();
+        this.loadPosts();
+    }
+
+    loadPosts() {
+        if(this.props.match.params.category) {
+            this.props.fetchPostsByCategory(this.props.match.params.category);
+        } else {
+            this.props.fetchPosts();
+        }
     }
 
     createNewPost() {
@@ -102,6 +114,7 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
     return {
         fetchPosts: () => dispatch(fetchPosts()),
+        fetchPostsByCategory: (c) => dispatch(fetchPostsByCategory(c)),
         deletePost: (post) => dispatch(deletePost(post)),
         cancelDeletePost: () => dispatch(cancelDeletePost()),
         addPost: (post) => dispatch(addPost(post))

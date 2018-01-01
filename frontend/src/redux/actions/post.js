@@ -16,6 +16,16 @@ export function fetchPosts() {
     };
 }
 
+export function fetchPostsByCategory(category) {
+    return (dispatch) => {
+        PostsApi
+            .getPostByCategory(category)
+            .then(response => {
+                dispatch(postsLoaded(response.data));
+            });
+    };
+}
+
 export function fetchPost(id) {
     return (dispatch) => {
         PostsApi
