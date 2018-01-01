@@ -12,11 +12,11 @@ import MenuIcon from 'material-ui-icons/Menu';
 import ChevronLeftIcon from 'material-ui-icons/ChevronLeft';
 import ChevronRightIcon from 'material-ui-icons/ChevronRight';
 import { MuiThemeProvider } from 'material-ui/styles';
-import theme from './theme';
-import PostList from './components/PostList';
+import theme from '../theme';
+import PostList from './posts/PostList';
 import { Switch, Route } from 'react-router-dom'
-import CategoryList from "./components/CategoryList";
-import PostDetails from "./components/PostDetails";
+import CategoryList from './categories/CategoryList';
+import PostDetails from './posts/PostDetails';
 
 const drawerWidth = 240;
 

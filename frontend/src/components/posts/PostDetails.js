@@ -1,6 +1,6 @@
 import React from "react";
 import { connect } from 'react-redux';
-import {fetchPost, deleteComment, cancelDeleteComment, addComment, editPost} from '../redux/actions';
+import {fetchPost, deleteComment, cancelDeleteComment, addComment, editPost} from '../../redux/actions';
 import PropTypes from "prop-types";
 import { withStyles } from 'material-ui/styles';
 import {Button, CircularProgress} from "material-ui";
@@ -12,10 +12,10 @@ import IconButton from 'material-ui/IconButton';
 import AddIcon from 'material-ui-icons/Add';
 import blue from 'material-ui/colors/blue';
 import moment from 'moment';
-import Comment from "./Comment";
-import ConfirmDialog from "./ConfirmDialog";
+import Comment from "../comments/Comment";
+import ConfirmDialog from "../utils/ConfirmDialog";
 import EditPost from "./EditPost";
-import EditComment from "./EditComment";
+import EditComment from "../comments/EditComment";
 
 const styles = theme => ({
     card: {
