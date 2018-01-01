@@ -16,6 +16,7 @@ import Comment from "../comments/Comment";
 import ConfirmDialog from "../utils/ConfirmDialog";
 import EditPost from "./EditPost";
 import EditComment from "../comments/EditComment";
+import {sortByKey} from "../../util/compare";
 
 const styles = theme => ({
     card: {
@@ -101,7 +102,7 @@ class PostDetails extends React.Component {
                     </CardActions>
                 </Card>
                 {
-                    comments && comments.map(comment => {
+                    comments && comments.sort(sortByKey('voteScore')).reverse().map(comment => {
                         return (<Comment key={comment.id} comment={comment}></Comment>)
                     })
                 }
