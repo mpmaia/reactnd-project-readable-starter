@@ -44,7 +44,7 @@ const styles = theme => ({
 class Post extends React.Component {
 
     render() {
-        const { classes, post, upVote, downVote, deletePost } = this.props;
+        const { classes, post, upVote, downVote, deletePost, editPost } = this.props;
 
         return (
             <Card className={classes.card}>
@@ -56,18 +56,18 @@ class Post extends React.Component {
                     }
                     action={
                         <CardActions disableActionSpacing>
-                            <IconButton aria-label="Edit Post" onClick={() => this.setState({editingPost: true})}>
+                            <IconButton aria-label="Edit Post" onClick={() => editPost(post)}>
                                 <ModeEdit />
                             </IconButton>
-                            <IconButton className={classes.button} onClick={() => deletePost(post)}>
+                            <IconButton aria-label="Delete Post" className={classes.button} onClick={() => deletePost(post)}>
                                 <Delete />
                             </IconButton>
                             <div className={classes.spacing} />
-                            <IconButton className={classes.button} onClick={() => downVote(post)}>
+                            <IconButton aria-label="Down Vote" className={classes.button} onClick={() => downVote(post)}>
                                 <ThumbDown />
                             </IconButton>
                             {post.voteScore}
-                            <IconButton className={classes.button} onClick={() => upVote(post)}>
+                            <IconButton aria-label="Up Vote" className={classes.button} onClick={() => upVote(post)}>
                                 <ThumbUp />
                             </IconButton>
                         </CardActions>
@@ -83,6 +83,10 @@ class Post extends React.Component {
 Post.propTypes = {
     classes: PropTypes.object.isRequired,
     post: PropTypes.object.isRequired,
+    upVote: PropTypes.func.isRequired,
+    downVote: PropTypes.func.isRequired,
+    deletePost: PropTypes.func.isRequired,
+    editPost: PropTypes.func.isRequired
 };
 
 const mapDispatchToProps = (dispatch) => {

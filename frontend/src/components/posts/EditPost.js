@@ -107,8 +107,8 @@ class EditPost extends React.Component {
         //Workaround to check if dialog is opening
         if(this.props.open === false && nextProps.open === true)
         {
-            if(this.props.post)
-                this.setState(this.props.post);
+            if(nextProps.post)
+                this.setState(nextProps.post);
         }
     }
 

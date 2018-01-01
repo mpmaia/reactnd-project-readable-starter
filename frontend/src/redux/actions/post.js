@@ -89,12 +89,16 @@ export function addPost(post) {
     };
 }
 
-export function editPost(post) {
+export function editPost(post, reloadAll = false) {
     return (dispatch) => {
         PostsApi
             .editPost(post)
             .then(response => {
-                dispatch(fetchPost(post.id));
+                if(reloadAll) {
+                    dispatch(fetchPosts());
+                } else {
+                    dispatch(fetchPost(post.id));
+                }
             });
     };
 }

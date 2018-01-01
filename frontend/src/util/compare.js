@@ -7,7 +7,8 @@ export function sortByKey(key) {
             return 0;
         }
 
-        if(typeof a[key] === 'string') {
+        if(typeof a[key] === 'string' &&
+           typeof b[key] === 'string') {
             var str1 = a[key].toUpperCase();
             var str2 = b[key].toUpperCase();
             if (str1 > str2) {

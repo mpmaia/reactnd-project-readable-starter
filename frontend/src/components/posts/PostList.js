@@ -1,7 +1,10 @@
 import React from "react";
 import { connect } from 'react-redux';
 import Post from './Post';
-import {fetchPosts, deletePost, cancelDeletePost, addPost, fetchPostsByCategory, postOrderBy} from '../../redux/actions';
+import {
+    fetchPosts, deletePost, cancelDeletePost, addPost, fetchPostsByCategory, postOrderBy,
+    editPost
+} from '../../redux/actions';
 import PropTypes from "prop-types";
 import { withStyles } from 'material-ui/styles';
 import ConfirmDialog from "../utils/ConfirmDialog";
@@ -36,7 +39,8 @@ const styles = theme => ({
 class PostList extends React.Component {
 
     state = {
-        addingPost: false
+        addingPost: false,
+        editingPost: false
     };
 
     handleDialogClose(shouldDelete) {
@@ -73,13 +77,22 @@ class PostList extends React.Component {
         this.setState({addingPost: true});
     }
 
-    handleAddPost(post) {
-        this.props.addPost(post);
-        this.setState({addingPost: false});
+    handleSavePost(post) {
+        if(this.state.addingPost) {
+            this.props.addPost(post);
+        } else {
+            this.props.editPost(post);
+        }
+
+        this.hideAddEditPostDialog();
     }
 
-    handleCancelAddPost() {
-        this.setState({addingPost: false});
+    handleEditPost(p) {
+        this.setState({editingPost: true, postToEdit: p});
+    }
+
+    hideAddEditPostDialog() {
+        this.setState({addingPost: false, editingPost: false});
     }
 
     handleOrderBy(e) {
@@ -111,7 +124,7 @@ class PostList extends React.Component {
                         posts && posts
                             .sort(sortByKey(postOrderByField))
                             .reverse()
-                            .map(p => <Post key={p.id} post={p}></Post>)
+                            .map(p => <Post key={p.id} post={p} editPost={(p) => this.handleEditPost(p)}></Post>)
                     }
                 </div>
                 <ConfirmDialog title="Delete post?"
@@ -126,9 +139,10 @@ class PostList extends React.Component {
                         <AddIcon />
                     </Button>
                 </div>
-                <EditPost open={this.state.addingPost}
-                          onSave={(p) => this.handleAddPost(p)}
-                          onCancel={() => this.handleCancelAddPost(false)}/>
+                <EditPost open={this.state.addingPost || this.state.editingPost}
+                          post={this.state.postToEdit}
+                          onSave={(p) => this.handleSavePost(p)}
+                          onCancel={() => this.hideAddEditPostDialog(false)}/>
             </div>
         );
     }
@@ -153,6 +167,7 @@ const mapDispatchToProps = (dispatch) => {
         deletePost: (post) => dispatch(deletePost(post)),
         cancelDeletePost: () => dispatch(cancelDeletePost()),
         addPost: (post) => dispatch(addPost(post)),
+        editPost: (post) => dispatch(editPost(post, true)),
         postOrderBy: (key) => dispatch(postOrderBy(key))
     };
 };
