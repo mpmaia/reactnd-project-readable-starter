@@ -2,7 +2,7 @@ import React from "react";
 import { connect } from 'react-redux';
 import {fetchCategories} from '../../redux/actions/index';
 import PropTypes from "prop-types";
-import {List} from "material-ui";
+import {List, MenuItem, MenuList} from "material-ui";
 import { ListItem, ListItemText } from 'material-ui/List';
 import {Link} from "react-router-dom";
 
@@ -16,14 +16,14 @@ class CategoryList extends React.Component {
         const { categories } = this.props;
         return (
             <List>
-                <ListItem button>
-                    <Link to='/'>
+                <ListItem>
+                    <Link to="/">
                         <ListItemText primary="All"/>
                     </Link>
                 </ListItem>
                 {
                     categories && categories.map(c => (
-                        <ListItem button key={c.name}>
+                        <ListItem key={c.name}>
                             <Link to={`/${c.name}`}>
                                 <ListItemText primary={c.name}/>
                             </Link>

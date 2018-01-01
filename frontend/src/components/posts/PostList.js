@@ -47,6 +47,10 @@ class PostList extends React.Component {
     }
 
     componentWillReceiveProps(newProps) {
+        /**
+         * React-router does not unmount the component when the params change. This is a workaround to detect
+         * the change in the url and dispatch a new request if necessary
+         */
         if(this.props.match.params.category != newProps.match.params.category) {
             this.loadPosts(newProps.match.params.category);
         }
@@ -152,4 +156,4 @@ const mapDispatchToProps = (dispatch) => {
     };
 };
 
-export default withStyles(styles)(connect(mapStateToProps, mapDispatchToProps)(withRouter(PostList)))
+export default withStyles(styles)(withRouter(connect(mapStateToProps, mapDispatchToProps)(PostList)))
