@@ -1,7 +1,7 @@
 import React from "react";
 import { connect } from 'react-redux';
 import Post from './Post';
-import {fetchPosts, deletePost, cancelDeletePost, addPost} from '../../redux/actions';
+import {fetchPosts, deletePost, cancelDeletePost, addPost} from '../../redux/actions/index';
 import PropTypes from "prop-types";
 import { withStyles } from 'material-ui/styles';
 import List from 'material-ui/List';

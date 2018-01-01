@@ -1,6 +1,6 @@
 import React from "react";
 import { connect } from 'react-redux';
-import {fetchPost, deleteComment, cancelDeleteComment, addComment, editPost} from '../../redux/actions';
+import {fetchPost, deleteComment, cancelDeleteComment, addComment, editPost} from '../../redux/actions/index';
 import PropTypes from "prop-types";
 import { withStyles } from 'material-ui/styles';
 import {Button, CircularProgress} from "material-ui";

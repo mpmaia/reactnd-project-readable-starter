@@ -8,10 +8,9 @@ import ThumbDown from 'material-ui-icons/ThumbDown';
 import ThumbUp from 'material-ui-icons/ThumbUp';
 import ModeEdit from 'material-ui-icons/ModeEdit';
 import Delete from 'material-ui-icons/Delete';
-import {upVotePost, downVotePost, confirmDeletePost} from '../../redux/actions';
+import {upVotePost, downVotePost, confirmDeletePost} from '../../redux/actions/index';
 import {connect} from "react-redux";
 import {Link} from "react-router-dom";
-import {Divider} from "material-ui";
 
 const styles = theme => ({
     heading: {

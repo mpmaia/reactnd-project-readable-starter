@@ -1,6 +1,6 @@
 import React from "react";
 import { connect } from 'react-redux';
-import {confirmDeleteComment, downVoteComment, upVoteComment, editComment} from '../../redux/actions';
+import {confirmDeleteComment, downVoteComment, upVoteComment, editComment} from '../../redux/actions/index';
 import PropTypes from "prop-types";
 import { withStyles } from 'material-ui/styles';
 import Card, { CardHeader, CardContent, CardActions } from 'material-ui/Card';

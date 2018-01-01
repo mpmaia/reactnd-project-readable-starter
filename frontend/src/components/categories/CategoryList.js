@@ -1,6 +1,6 @@
 import React from "react";
 import { connect } from 'react-redux';
-import {fetchCategories} from '../../redux/actions';
+import {fetchCategories} from '../../redux/actions/index';
 import PropTypes from "prop-types";
 import {List} from "material-ui";
 import { ListItem, ListItemText } from 'material-ui/List';
