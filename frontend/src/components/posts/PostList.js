@@ -129,7 +129,7 @@ class PostList extends React.Component {
                 </div>
                 <ConfirmDialog title="Delete post?"
                                question="Do you really want to delete the post?"
-                               open={postToDelete}
+                               open={!!postToDelete}
                                onConfirm={() => this.handleDialogClose(true)}
                                onCancel={() => this.handleDialogClose(false)}
                 />

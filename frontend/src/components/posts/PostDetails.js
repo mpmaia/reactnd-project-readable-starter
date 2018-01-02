@@ -17,6 +17,9 @@ import ConfirmDialog from "../utils/ConfirmDialog";
 import EditPost from "./EditPost";
 import EditComment from "../comments/EditComment";
 import {sortByKey} from "../../util/compare";
+import Delete from 'material-ui-icons/Delete';
+import {cancelDeletePost, confirmDeletePost, deletePost} from "../../redux/actions";
+import {withRouter} from "react-router";
 
 const styles = theme => ({
     card: {
@@ -48,14 +51,6 @@ class PostDetails extends React.Component {
         this.props.fetchPost(this.props.match.params.postId);
     }
 
-    confirmCommentRemoval(shouldDelete) {
-        if(shouldDelete) {
-            this.props.deleteComment(this.props.commentToDelete);
-        } else {
-            this.props.cancelDeleteComment();
-        }
-    }
-
     handleEditPost(post) {
         this.props.editPost(post);
         this.setState({editingPost: false})
@@ -66,12 +61,18 @@ class PostDetails extends React.Component {
         this.setState({addingComment: false})
     }
 
+    handleDeletePost(post) {
+        this.props.deletePost(post);
+        this.props.history.push('/');
+    }
+
     createNewComment() {
         this.setState({addingComment: true});
     }
 
     render() {
-        const { post, classes, comments, commentToDelete } = this.props;
+        const { post, classes, comments, commentToDelete, postToDelete,
+                cancelDeletePost, deleteComment, cancelDeleteComment } = this.props;
 
         if(!post) {
             return (<div><CircularProgress className={classes.progress} /></div>);
@@ -98,6 +99,9 @@ class PostDetails extends React.Component {
                         <IconButton aria-label="Edit Post" onClick={() => this.setState({editingPost: true})}>
                             <ModeEdit />
                         </IconButton>
+                        <IconButton aria-label="Delete Post" onClick={() => this.props.confirmDeletePost(post)}>
+                            <Delete />
+                        </IconButton>
                         <div className={classes.flexGrow} />
                     </CardActions>
                 </Card>
@@ -112,16 +116,26 @@ class PostDetails extends React.Component {
                         <AddIcon />
                     </Button>
                 </div>
+
                 <ConfirmDialog title="Delete comment?"
                                question="Do you really want to delete the comment?"
-                               open={commentToDelete}
-                               onConfirm={() => this.confirmCommentRemoval(true)}
-                               onCancel={() => this.confirmCommentRemoval(false)}
+                               open={!!commentToDelete}
+                               onConfirm={() => deleteComment(commentToDelete)}
+                               onCancel={() => cancelDeleteComment()}
                 />
+
+                <ConfirmDialog title="Delete post?"
+                               question="Do you really want to delete the post?"
+                               open={!!postToDelete}
+                               onConfirm={() => this.handleDeletePost(postToDelete)}
+                               onCancel={() => cancelDeletePost()}
+                />
+
                 <EditPost open={this.state.editingPost}
                           post={post}
                           onSave={(p) => this.handleEditPost(p)}
                           onCancel={() => this.setState({editingPost: false})}/>
+
                 <EditComment open={this.state.addingComment}
                           onSave={(c) => this.handleEditComment(c)}
                           onCancel={() => this.setState({addingComment: false})}/>
@@ -140,18 +154,22 @@ const mapStateToProps = (state) => {
     return {
         post: state.post,
         comments: state.comments,
-        commentToDelete: state.commentToDelete
+        commentToDelete: state.commentToDelete,
+        postToDelete: state.postToDelete
     };
 };
 
 const mapDispatchToProps = (dispatch) => {
     return {
         fetchPost: (id) => dispatch(fetchPost(id)),
+        editPost: (post) => dispatch(editPost(post)),
+        confirmDeletePost: (post) => dispatch(confirmDeletePost(post)),
+        cancelDeletePost: () => dispatch(cancelDeletePost()),
+        deletePost: (post) => dispatch(deletePost(post)),
         deleteComment: (comment) => dispatch(deleteComment(comment)),
         cancelDeleteComment: () => dispatch(cancelDeleteComment()),
         addComment: (comment, post) => dispatch(addComment(comment, post)),
-        editPost: (post) => dispatch(editPost(post))
     };
 };
 
-export default withStyles(styles)(connect(mapStateToProps, mapDispatchToProps)(PostDetails))
+export default withStyles(styles)(withRouter((connect(mapStateToProps, mapDispatchToProps)(PostDetails))))
