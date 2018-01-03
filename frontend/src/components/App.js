@@ -146,7 +146,7 @@ class App extends React.Component {
                                     <MenuIcon />
                                 </IconButton>
                                 <Typography type="title" color="inherit" noWrap>
-                                    App Title
+                                    Udacity Readable
                                 </Typography>
                             </Toolbar>
                         </AppBar>

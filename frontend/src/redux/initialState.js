@@ -1,1 +1,1 @@
-export default {posts:[], categories:[], postOrderBy: 'voteScore'};
+export default {posts:[], categories:[], postOrderBy: 'voteScore', errorMsg: null};
