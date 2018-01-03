@@ -1,6 +1,7 @@
 import CommentsApi from "../../api/CommentsApi";
 import PostsApi from "../../api/PostsApi";
 import {commentsLoaded} from "./comment";
+import {showError} from './error';
 
 export const POSTS_LOADED = 'POSTS_LOADED';
 export const CONFIRM_POST_DELETE = 'CONFIRM_POST_DELETE';
@@ -13,8 +14,10 @@ export function fetchPosts() {
             .getPosts()
             .then(response => {
                 dispatch(postsLoaded(response.data));
+            }).catch( response => {
+                dispatch(showError(response));
             });
-    };
+        };
 }
 
 export function fetchPostsByCategory(category) {
@@ -23,6 +26,8 @@ export function fetchPostsByCategory(category) {
             .getPostByCategory(category)
             .then(response => {
                 dispatch(postsLoaded(response.data));
+            }).catch( response => {
+                dispatch(showError(response));
             });
     };
 }
@@ -34,6 +39,8 @@ export function fetchPost(id) {
             .then(response => {
                 dispatch(postLoaded(response.data));
                 dispatch(fetchPostComments(id));
+            }).catch( response => {
+                dispatch(showError(response));
             });
     };
 }
@@ -44,6 +51,8 @@ export function fetchPostComments(id) {
             .getPostComments(id)
             .then(response => {
                 dispatch(commentsLoaded(response.data));
+            }).catch( response => {
+                dispatch(showError(response));
             });
     };
 }
@@ -54,6 +63,8 @@ export function upVotePost(post) {
             .upVote(post)
             .then(response => {
                 dispatch(fetchPosts());
+            }).catch( response => {
+                dispatch(showError(response));
             });
     };
 }
@@ -64,6 +75,8 @@ export function downVotePost(post) {
             .downVote(post)
             .then(response => {
                 dispatch(fetchPosts());
+            }).catch( response => {
+                dispatch(showError(response));
             });
     };
 }
@@ -75,6 +88,8 @@ export function deletePost(post) {
             .then(response => {
                 dispatch(cancelDeletePost());
                 dispatch(fetchPosts());
+            }).catch( response => {
+                dispatch(showError(response));
             });
     };
 }
@@ -85,6 +100,8 @@ export function addPost(post) {
             .addPost(post)
             .then(response => {
                 dispatch(fetchPosts());
+            }).catch( response => {
+                dispatch(showError(response));
             });
     };
 }
@@ -99,6 +116,8 @@ export function editPost(post, reloadAll = false) {
                 } else {
                     dispatch(fetchPost(post.id));
                 }
+            }).catch( response => {
+                dispatch(showError(response));
             });
     };
 }

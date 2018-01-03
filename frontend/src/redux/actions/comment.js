@@ -1,6 +1,7 @@
 import {CONFIRM_POST_DELETE} from "./index";
 import CommentsApi from "../../api/CommentsApi";
 import {fetchPostComments} from "./post";
+import {showError} from "./error";
 
 export const COMMENTS_LOADED = 'COMMENTS_LOADED';
 export const CONFIRM_COMMENT_DELETE = 'CONFIRM_COMMENT_DELETE';
@@ -11,6 +12,8 @@ export function addComment(comment, post) {
             .addComment(comment, post)
             .then(response => {
                 dispatch(fetchPostComments(comment.parentId));
+            }).catch( response => {
+                dispatch(showError(response));
             });
     };
 }
@@ -21,6 +24,8 @@ export function editComment(comment) {
             .editComment(comment)
             .then(response => {
                 dispatch(fetchPostComments(comment.parentId));
+            }).catch( response => {
+                dispatch(showError(response));
             });
     };
 }
@@ -32,6 +37,8 @@ export function deleteComment(comment) {
             .then(response => {
                 dispatch(cancelDeleteComment());
                 dispatch(fetchPostComments(comment.parentId));
+            }).catch( response => {
+                dispatch(showError(response));
             });
     };
 }
@@ -42,6 +49,8 @@ export function upVoteComment(comment) {
             .upVote(comment)
             .then(response => {
                 dispatch(fetchPostComments(comment.parentId));
+            }).catch( response => {
+                dispatch(showError(response));
             });
     };
 }
@@ -52,6 +61,8 @@ export function downVoteComment(comment) {
             .downVote(comment)
             .then(response => {
                 dispatch(fetchPostComments(comment.parentId));
+            }).catch( response => {
+                dispatch(showError(response));
             });
     };
 }

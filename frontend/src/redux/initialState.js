@@ -1,0 +1,1 @@
+export default {posts:[], categories:[], postOrderBy: 'voteScore'};

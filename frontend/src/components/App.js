@@ -17,6 +17,10 @@ import PostList from './posts/PostList';
 import { Switch, Route } from 'react-router-dom'
 import CategoryList from './categories/CategoryList';
 import PostDetails from './posts/PostDetails';
+import {connect} from "react-redux";
+import {Snackbar} from "material-ui";
+import {createError} from "../redux/actions/error";
+import {withRouter} from "react-router";
 
 const drawerWidth = 240;
 
@@ -115,8 +119,13 @@ class App extends React.Component {
         this.setState({ open: false });
     };
 
+    handleCloseErrorMsg = () => {
+        this.props.clearErrorMsg();
+        this.props.history.push("/");
+    };
+
     render() {
-        const { classes } = this.props;
+        const { classes, errorMsg } = this.props;
         const { anchor, open } = this.state;
         return (
             <MuiThemeProvider theme={theme}>
@@ -166,6 +175,17 @@ class App extends React.Component {
                                 [classes.contentOpen]: open
                             })}
                         >
+                            <Snackbar
+                                anchorOrigin={{
+                                    vertical: 'bottom',
+                                    horizontal: 'left',
+                                }}
+                                open={!!errorMsg}
+                                autoHideDuration={5000}
+                                onClose={() => this.handleCloseErrorMsg()}
+                                message={<span id="message-id">{errorMsg}</span>}
+                            />
+
                             <Switch>
                                 <Route exact path='/' component={PostList}/>
                                 <Route exact path='/:category' component={PostList}/>
@@ -183,4 +203,16 @@ App.propTypes = {
     classes: PropTypes.object.isRequired
 };
 
-export default withStyles(styles)(App);
+const mapStateToProps = (state) => {
+    return {
+        errorMsg: state.errorMsg,
+    };
+};
+
+const mapDispatchToProps = (dispatch) => {
+    return {
+        clearErrorMsg: () => dispatch(createError(null))
+    }
+};
+
+export default withStyles(styles)(withRouter((connect(mapStateToProps, mapDispatchToProps)(App))));

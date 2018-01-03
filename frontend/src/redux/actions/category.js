@@ -1,4 +1,5 @@
 import CategoriesApi from '../../api/CategoriesApi';
+import {showError} from "./error";
 
 export const CATEGORIES_LOADED = 'CATEGORIES_LOADED';
 
@@ -8,6 +9,8 @@ export function fetchCategories() {
             .getCategories()
             .then(response => {
                 dispatch(categoriesLoaded(response.data.categories));
+            }).catch( response => {
+                dispatch(showError(response));
             });
     };
 }

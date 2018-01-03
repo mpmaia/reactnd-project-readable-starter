@@ -1,5 +1,9 @@
-
-
+/**
+ * Sort function that compares object properties
+ *
+ * @param key Name of the object property
+ * @returns {Function} to be supplied to array.sort
+ */
 export function sortByKey(key) {
     return function(a, b) {
 
