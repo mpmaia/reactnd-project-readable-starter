@@ -4,21 +4,14 @@ import {fetchPost, deleteComment, cancelDeleteComment, addComment, editPost} fro
 import PropTypes from "prop-types";
 import { withStyles } from 'material-ui/styles';
 import {Button, CircularProgress} from "material-ui";
-import Card, { CardHeader, CardContent, CardActions } from 'material-ui/Card';
-import Typography from 'material-ui/Typography';
-import ModeEdit from 'material-ui-icons/ModeEdit';
-import Avatar from 'material-ui/Avatar';
-import IconButton from 'material-ui/IconButton';
 import AddIcon from 'material-ui-icons/Add';
 import blue from 'material-ui/colors/blue';
-import moment from 'moment';
 import Comment from "../comments/Comment";
 import ConfirmDialog from "../utils/ConfirmDialog";
 import EditPost from "./EditPost";
 import EditComment from "../comments/EditComment";
 import {sortByKey} from "../../util/compare";
-import Delete from 'material-ui-icons/Delete';
-import {cancelDeletePost, deletePost} from "../../redux/actions";
+import {deletePost} from "../../redux/actions";
 import {withRouter} from "react-router";
 import Post from "./Post";
 
@@ -50,7 +43,7 @@ class PostDetails extends React.Component {
          */
         editingPost: false,
         addingComment: false,
-        confirmDelete: false
+        confirmDeletePost: false
     };
 
     componentDidMount() {
@@ -87,34 +80,8 @@ class PostDetails extends React.Component {
             <div>
                 <Post post={post}
                       editPost={() => this.setState({editingPost: true})}
-                      deletePost={() => this.setState({confirmDelete: true})}
+                      deletePost={() => this.setState({confirmDeletePost: true})}
                       showBody={true}/>
-
-                <Card className={classes.card}>
-                    <CardHeader
-                        avatar={
-                            <Avatar aria-label="Author" className={classes.avatar}>
-                                {post.author.charAt(0).toUpperCase()}
-                            </Avatar>
-                        }
-                        title={post.title}
-                        subheader={`${post.author} - ${moment(post.timestamp).format('MMMM D, YYYY')}`}
-                    />
-                    <CardContent>
-                        <Typography component="p">
-                            {post.body}
-                        </Typography>
-                    </CardContent>
-                    <CardActions disableActionSpacing>
-                        <IconButton aria-label="Edit Post" onClick={() => this.setState({editingPost: true})}>
-                            <ModeEdit />
-                        </IconButton>
-                        <IconButton aria-label="Delete Post" onClick={() => this.setState({confirmDelete: true})}>
-                            <Delete />
-                        </IconButton>
-                        <div className={classes.flexGrow} />
-                    </CardActions>
-                </Card>
                 {
                     comments && comments.sort(sortByKey('voteScore')).reverse().map(comment => {
                         return (<Comment key={comment.id} comment={comment}></Comment>)
@@ -136,9 +103,9 @@ class PostDetails extends React.Component {
 
                 <ConfirmDialog title="Delete post?"
                                question="Do you really want to delete the post?"
-                               open={this.state.confirmDelete}
+                               open={this.state.confirmDeletePost}
                                onConfirm={() => this.handleDeletePost(post)}
-                               onCancel={() => this.setState({confirmDelete: false})}
+                               onCancel={() => this.setState({confirmDeletePost: false})}
                 />
 
                 <EditPost open={this.state.editingPost}
@@ -172,7 +139,6 @@ const mapDispatchToProps = (dispatch) => {
     return {
         fetchPost: (id) => dispatch(fetchPost(id)),
         editPost: (post) => dispatch(editPost(post)),
-        cancelDeletePost: () => dispatch(cancelDeletePost()),
         deletePost: (post) => dispatch(deletePost(post)),
         deleteComment: (comment) => dispatch(deleteComment(comment)),
         addComment: (comment, post) => dispatch(addComment(comment, post)),

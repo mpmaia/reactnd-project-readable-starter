@@ -4,8 +4,21 @@ export function posts(state = [], action) {
     switch (action.type) {
         case POSTS_LOADED:
             return action.posts;
+        case POST_LOADED:
+            //If just one post was loaded, find it on the posts array and update it.
+            if(state) {
+                return state.map(s => {
+                    if(s.id===action.post.id) {
+                        return action.post;
+                    } else {
+                        return s;
+                    }
+                })
+            } else {
+                return state;
+            }
         default:
-            return state
+            return state;
     }
 }
 

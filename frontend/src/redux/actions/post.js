@@ -62,7 +62,7 @@ export function upVotePost(post) {
         PostsApi
             .upVote(post)
             .then(response => {
-                dispatch(fetchPosts());
+                dispatch(fetchPost(post.id));
             }).catch( response => {
                 dispatch(showError(response));
             });
@@ -74,7 +74,7 @@ export function downVotePost(post) {
         PostsApi
             .downVote(post)
             .then(response => {
-                dispatch(fetchPosts());
+                dispatch(fetchPost(post.id));
             }).catch( response => {
                 dispatch(showError(response));
             });

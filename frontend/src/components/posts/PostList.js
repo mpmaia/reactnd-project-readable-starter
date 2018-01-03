@@ -159,7 +159,6 @@ PostList.propTypes = {
 const mapStateToProps = (state) => {
     return {
         posts: state.posts,
-        postToDelete: state.postToDelete,
         postOrderByField: state.postOrderBy
     };
 };
