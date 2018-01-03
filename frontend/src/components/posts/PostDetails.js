@@ -30,7 +30,8 @@ const styles = theme => ({
         justifyContent: 'space-between'
     },
     addButton: {
-        marginRight: '50px'
+        marginTop: '20px',
+        marginRight: '20px'
     }
 });
 
