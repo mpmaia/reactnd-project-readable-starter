@@ -1,6 +1,6 @@
 import React from "react";
 import { connect } from 'react-redux';
-import {fetchPost, deleteComment, cancelDeleteComment, addComment, editPost} from '../../redux/actions/index';
+import {fetchPost, addComment, editPost} from '../../redux/actions/index';
 import PropTypes from "prop-types";
 import { withStyles } from 'material-ui/styles';
 import {Button, CircularProgress} from "material-ui";
@@ -70,7 +70,7 @@ class PostDetails extends React.Component {
     }
 
     render() {
-        const { post, classes, comments, commentToDelete, deleteComment } = this.props;
+        const { post, classes, comments } = this.props;
 
         if(!post) {
             return (<div><CircularProgress className={classes.progress} /></div>);
@@ -93,13 +93,6 @@ class PostDetails extends React.Component {
                         <AddIcon />
                     </Button>
                 </div>
-
-                <ConfirmDialog title="Delete comment?"
-                               question="Do you really want to delete the comment?"
-                               open={!!commentToDelete}
-                               onConfirm={() => deleteComment(commentToDelete)}
-                               onCancel={() => cancelDeleteComment()}
-                />
 
                 <ConfirmDialog title="Delete post?"
                                question="Do you really want to delete the post?"
@@ -130,8 +123,7 @@ PostDetails.propTypes = {
 const mapStateToProps = (state) => {
     return {
         post: state.post,
-        comments: state.comments,
-        commentToDelete: state.commentToDelete
+        comments: state.comments
     };
 };
 
@@ -140,7 +132,6 @@ const mapDispatchToProps = (dispatch) => {
         fetchPost: (id) => dispatch(fetchPost(id)),
         editPost: (post) => dispatch(editPost(post)),
         deletePost: (post) => dispatch(deletePost(post)),
-        deleteComment: (comment) => dispatch(deleteComment(comment)),
         addComment: (comment, post) => dispatch(addComment(comment, post)),
     };
 };

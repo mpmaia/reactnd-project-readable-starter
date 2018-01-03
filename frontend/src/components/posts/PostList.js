@@ -43,12 +43,9 @@ class PostList extends React.Component {
         editingPost: false
     };
 
-    handleDeletePost(shouldDelete) {
-        if(shouldDelete) {
-            this.props.deletePost(this.state.postToDelete);
-        } else {
-            this.setState({postToDelete: null});
-        }
+    handleDeletePost() {
+        this.props.deletePost(this.state.postToDelete);
+        this.setState({postToDelete: null});
     }
 
     componentWillReceiveProps(newProps) {
@@ -78,6 +75,7 @@ class PostList extends React.Component {
     }
 
     handleSavePost(post) {
+
         if(this.state.addingPost) {
             this.props.addPost(post);
         } else {
@@ -92,7 +90,7 @@ class PostList extends React.Component {
     }
 
     hideAddEditPostDialog() {
-        this.setState({addingPost: false, editingPost: false});
+        this.setState({addingPost: false, editingPost: false, postToEdit: null});
     }
 
     handleOrderBy(e) {
@@ -134,8 +132,8 @@ class PostList extends React.Component {
                 <ConfirmDialog title="Delete post?"
                                question="Do you really want to delete the post?"
                                open={!!this.state.postToDelete}
-                               onConfirm={() => this.handleDeletePost(true)}
-                               onCancel={() => this.handleDeletePost(false)}
+                               onConfirm={() => this.handleDeletePost()}
+                               onCancel={() => this.setState({postToDelete: null})}
                 />
                 <div className={classes.actions}>
                     <div className={classes.flexGrow} />
@@ -146,7 +144,7 @@ class PostList extends React.Component {
                 <EditPost open={this.state.addingPost || this.state.editingPost}
                           post={this.state.postToEdit}
                           onSave={(p) => this.handleSavePost(p)}
-                          onCancel={() => this.hideAddEditPostDialog(false)}/>
+                          onCancel={() => this.hideAddEditPostDialog()}/>
             </div>
         );
     }

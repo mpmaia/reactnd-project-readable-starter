@@ -1,6 +1,6 @@
 import React from "react";
 import { connect } from 'react-redux';
-import {confirmDeleteComment, downVoteComment, upVoteComment, editComment} from '../../redux/actions/index';
+import {downVoteComment, upVoteComment, editComment} from '../../redux/actions/index';
 import PropTypes from "prop-types";
 import { withStyles } from 'material-ui/styles';
 import Card, { CardHeader, CardContent, CardActions } from 'material-ui/Card';
@@ -14,6 +14,8 @@ import ThumbDown from 'material-ui-icons/ThumbDown';
 import ThumbUp from 'material-ui-icons/ThumbUp';
 import Delete from 'material-ui-icons/Delete';
 import EditComment from "./EditComment";
+import {deleteComment} from "../../redux/actions";
+import ConfirmDialog from "../utils/ConfirmDialog";
 
 const styles = theme => ({
     card: {
@@ -32,7 +34,8 @@ const styles = theme => ({
 class Comment extends React.Component {
 
     state = {
-        editingComment: false
+        editingComment: false,
+        confirmDelete: null
     };
 
     handleEditComment(comment) {
@@ -68,7 +71,7 @@ class Comment extends React.Component {
                         <IconButton aria-label="Edit comment" onClick={() => this.setState({editingComment: true})}>
                             <ModeEdit />
                         </IconButton>
-                        <IconButton aria-label="Delete comment" onClick={() => deleteComment(comment)}>
+                        <IconButton aria-label="Delete comment" onClick={() => this.setState({confirmDelete: true})}>
                             <Delete />
                         </IconButton>
                         <div className={classes.flexGrow} />
@@ -81,10 +84,18 @@ class Comment extends React.Component {
                         </IconButton>
                     </CardActions>
                 </Card>
+
                 <EditComment open={this.state.editingComment}
                              comment={comment}
                              onSave={(c) => this.handleEditComment(c)}
                              onCancel={() => this.setState({editingComment: false})}/>
+
+                <ConfirmDialog title="Delete comment?"
+                               question="Do you really want to delete the comment?"
+                               open={this.state.confirmDelete}
+                               onConfirm={() => deleteComment(comment)}
+                               onCancel={() => this.setState({confirmDelete: false})}
+                />
             </div>
         );
     }
@@ -104,7 +115,7 @@ const mapDispatchToProps = (dispatch) => {
     return {
         upVote: (comment) => dispatch(upVoteComment(comment)),
         downVote: (comment) => dispatch(downVoteComment(comment)),
-        deleteComment: (comment) => dispatch(confirmDeleteComment(comment)),
+        deleteComment: (comment) => dispatch(deleteComment(comment)),
         editComment: (comment) => dispatch(editComment(comment))
     };
 };
