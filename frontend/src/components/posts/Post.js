@@ -6,10 +6,10 @@ import ThumbDown from 'material-ui-icons/ThumbDown';
 import ThumbUp from 'material-ui-icons/ThumbUp';
 import ModeEdit from 'material-ui-icons/ModeEdit';
 import Delete from 'material-ui-icons/Delete';
-import {upVotePost, downVotePost, confirmDeletePost} from '../../redux/actions/index';
+import {upVotePost, downVotePost} from '../../redux/actions/index';
 import {connect} from "react-redux";
 import {Link} from "react-router-dom";
-import {Avatar, Card, CardActions, CardHeader} from "material-ui";
+import {Avatar, Card, CardActions, CardContent, CardHeader, Typography} from "material-ui";
 import moment from "moment";
 import blue from "material-ui/colors/blue";
 
@@ -44,7 +44,7 @@ const styles = theme => ({
 class Post extends React.Component {
 
     render() {
-        const { classes, post, upVote, downVote, deletePost, editPost } = this.props;
+        const { classes, post, upVote, downVote, deletePost, editPost, showBody } = this.props;
 
         return (
             <Card className={classes.card}>
@@ -54,27 +54,32 @@ class Post extends React.Component {
                             {post.author.charAt(0).toUpperCase()}
                         </Avatar>
                     }
-                    action={
-                        <CardActions disableActionSpacing>
-                            <IconButton aria-label="Edit Post" onClick={() => editPost(post)}>
-                                <ModeEdit />
-                            </IconButton>
-                            <IconButton aria-label="Delete Post" className={classes.button} onClick={() => deletePost(post)}>
-                                <Delete />
-                            </IconButton>
-                            <div className={classes.spacing} />
-                            <IconButton aria-label="Down Vote" className={classes.button} onClick={() => downVote(post)}>
-                                <ThumbDown />
-                            </IconButton>
-                            {post.voteScore}
-                            <IconButton aria-label="Up Vote" className={classes.button} onClick={() => upVote(post)}>
-                                <ThumbUp />
-                            </IconButton>
-                        </CardActions>
-                    }
                     title={(<Link to={`/${post.category}/${post.id}`}>{post.title}</Link>)}
                     subheader={`${post.author} - ${moment(post.timestamp).format('MMMM D, YYYY')}`}
                 />
+                {showBody &&
+                    (<CardContent>
+                        <Typography component="p">
+                            {post.body}
+                        </Typography>
+                    </CardContent>)
+                }
+                <CardActions disableActionSpacing>
+                    <IconButton aria-label="Edit Post" onClick={() => editPost(post)}>
+                        <ModeEdit />
+                    </IconButton>
+                    <IconButton aria-label="Delete Post" className={classes.button} onClick={() => deletePost(post)}>
+                        <Delete />
+                    </IconButton>
+                    <div className={classes.spacing} />
+                    <IconButton aria-label="Down Vote" className={classes.button} onClick={() => downVote(post)}>
+                        <ThumbDown />
+                    </IconButton>
+                    {post.voteScore}
+                    <IconButton aria-label="Up Vote" className={classes.button} onClick={() => upVote(post)}>
+                        <ThumbUp />
+                    </IconButton>
+                </CardActions>
             </Card>
         );
     }
@@ -86,14 +91,14 @@ Post.propTypes = {
     upVote: PropTypes.func.isRequired,
     downVote: PropTypes.func.isRequired,
     deletePost: PropTypes.func.isRequired,
-    editPost: PropTypes.func.isRequired
+    editPost: PropTypes.func.isRequired,
+    showBody: PropTypes.bool
 };
 
 const mapDispatchToProps = (dispatch) => {
     return {
         upVote: (post) => dispatch(upVotePost(post)),
-        downVote: (post) => dispatch(downVotePost(post)),
-        deletePost: (post) => dispatch(confirmDeletePost(post))
+        downVote: (post) => dispatch(downVotePost(post))
     };
 };
 

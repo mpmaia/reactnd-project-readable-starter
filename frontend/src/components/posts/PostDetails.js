@@ -18,8 +18,9 @@ import EditPost from "./EditPost";
 import EditComment from "../comments/EditComment";
 import {sortByKey} from "../../util/compare";
 import Delete from 'material-ui-icons/Delete';
-import {cancelDeletePost, confirmDeletePost, deletePost} from "../../redux/actions";
+import {cancelDeletePost, deletePost} from "../../redux/actions";
 import {withRouter} from "react-router";
+import Post from "./Post";
 
 const styles = theme => ({
     card: {
@@ -43,8 +44,13 @@ const styles = theme => ({
 class PostDetails extends React.Component {
 
     state = {
+        /**
+         * All the state below does not affect any component outside this component. So I decided to keep this state
+         * managed internally and do not use redux for it.
+         */
         editingPost: false,
-        addingComment: false
+        addingComment: false,
+        confirmDelete: false
     };
 
     componentDidMount() {
@@ -71,8 +77,7 @@ class PostDetails extends React.Component {
     }
 
     render() {
-        const { post, classes, comments, commentToDelete, postToDelete,
-                cancelDeletePost, deleteComment, cancelDeleteComment } = this.props;
+        const { post, classes, comments, commentToDelete, deleteComment } = this.props;
 
         if(!post) {
             return (<div><CircularProgress className={classes.progress} /></div>);
@@ -80,6 +85,11 @@ class PostDetails extends React.Component {
 
         return (
             <div>
+                <Post post={post}
+                      editPost={() => this.setState({editingPost: true})}
+                      deletePost={() => this.setState({confirmDelete: true})}
+                      showBody={true}/>
+
                 <Card className={classes.card}>
                     <CardHeader
                         avatar={
@@ -99,7 +109,7 @@ class PostDetails extends React.Component {
                         <IconButton aria-label="Edit Post" onClick={() => this.setState({editingPost: true})}>
                             <ModeEdit />
                         </IconButton>
-                        <IconButton aria-label="Delete Post" onClick={() => this.props.confirmDeletePost(post)}>
+                        <IconButton aria-label="Delete Post" onClick={() => this.setState({confirmDelete: true})}>
                             <Delete />
                         </IconButton>
                         <div className={classes.flexGrow} />
@@ -126,9 +136,9 @@ class PostDetails extends React.Component {
 
                 <ConfirmDialog title="Delete post?"
                                question="Do you really want to delete the post?"
-                               open={!!postToDelete}
-                               onConfirm={() => this.handleDeletePost(postToDelete)}
-                               onCancel={() => cancelDeletePost()}
+                               open={this.state.confirmDelete}
+                               onConfirm={() => this.handleDeletePost(post)}
+                               onCancel={() => this.setState({confirmDelete: false})}
                 />
 
                 <EditPost open={this.state.editingPost}
@@ -154,8 +164,7 @@ const mapStateToProps = (state) => {
     return {
         post: state.post,
         comments: state.comments,
-        commentToDelete: state.commentToDelete,
-        postToDelete: state.postToDelete
+        commentToDelete: state.commentToDelete
     };
 };
 
@@ -163,11 +172,9 @@ const mapDispatchToProps = (dispatch) => {
     return {
         fetchPost: (id) => dispatch(fetchPost(id)),
         editPost: (post) => dispatch(editPost(post)),
-        confirmDeletePost: (post) => dispatch(confirmDeletePost(post)),
         cancelDeletePost: () => dispatch(cancelDeletePost()),
         deletePost: (post) => dispatch(deletePost(post)),
         deleteComment: (comment) => dispatch(deleteComment(comment)),
-        cancelDeleteComment: () => dispatch(cancelDeleteComment()),
         addComment: (comment, post) => dispatch(addComment(comment, post)),
     };
 };

@@ -2,7 +2,7 @@ import React from "react";
 import { connect } from 'react-redux';
 import Post from './Post';
 import {
-    fetchPosts, deletePost, cancelDeletePost, addPost, fetchPostsByCategory, postOrderBy,
+    fetchPosts, deletePost, addPost, fetchPostsByCategory, postOrderBy,
     editPost
 } from '../../redux/actions';
 import PropTypes from "prop-types";
@@ -43,11 +43,11 @@ class PostList extends React.Component {
         editingPost: false
     };
 
-    handleDialogClose(shouldDelete) {
+    handleDeletePost(shouldDelete) {
         if(shouldDelete) {
-            this.props.deletePost(this.props.postToDelete);
+            this.props.deletePost(this.state.postToDelete);
         } else {
-            this.props.cancelDeletePost();
+            this.setState({postToDelete: null});
         }
     }
 
@@ -100,7 +100,7 @@ class PostList extends React.Component {
     }
 
     render() {
-        const { posts, classes, postToDelete, postOrderByField } = this.props;
+        const { posts, classes, postOrderByField } = this.props;
 
         return (
             <div>
@@ -124,14 +124,18 @@ class PostList extends React.Component {
                         posts && posts
                             .sort(sortByKey(postOrderByField))
                             .reverse()
-                            .map(p => <Post key={p.id} post={p} editPost={(p) => this.handleEditPost(p)}></Post>)
+                            .map(p => <Post key={p.id}
+                                            post={p}
+                                            showBody={false}
+                                            editPost={(p) => this.handleEditPost(p)}
+                                            deletePost={(p) => this.setState({postToDelete: p})}></Post>)
                     }
                 </div>
                 <ConfirmDialog title="Delete post?"
                                question="Do you really want to delete the post?"
-                               open={!!postToDelete}
-                               onConfirm={() => this.handleDialogClose(true)}
-                               onCancel={() => this.handleDialogClose(false)}
+                               open={!!this.state.postToDelete}
+                               onConfirm={() => this.handleDeletePost(true)}
+                               onCancel={() => this.handleDeletePost(false)}
                 />
                 <div className={classes.actions}>
                     <div className={classes.flexGrow} />
@@ -165,7 +169,6 @@ const mapDispatchToProps = (dispatch) => {
         fetchPosts: () => dispatch(fetchPosts()),
         fetchPostsByCategory: (c) => dispatch(fetchPostsByCategory(c)),
         deletePost: (post) => dispatch(deletePost(post)),
-        cancelDeletePost: () => dispatch(cancelDeletePost()),
         addPost: (post) => dispatch(addPost(post)),
         editPost: (post) => dispatch(editPost(post, true)),
         postOrderBy: (key) => dispatch(postOrderBy(key))
