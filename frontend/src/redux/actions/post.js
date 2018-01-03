@@ -4,7 +4,6 @@ import {commentsLoaded} from "./comment";
 import {showError} from './error';
 
 export const POSTS_LOADED = 'POSTS_LOADED';
-export const CONFIRM_POST_DELETE = 'CONFIRM_POST_DELETE';
 export const POST_LOADED = 'POST_LOADED';
 export const POSTS_ORDER_BY = 'POSTS_ORDER_BY';
 
@@ -86,7 +85,6 @@ export function deletePost(post) {
         PostsApi
             .deletePost(post)
             .then(response => {
-                dispatch(cancelDeletePost());
                 dispatch(fetchPosts());
             }).catch( response => {
                 dispatch(showError(response));
@@ -132,8 +130,4 @@ export function postOrderBy(field) {
 
 export function postLoaded(post) {
     return { type: POST_LOADED, post };
-}
-
-export function cancelDeletePost() {
-    return { type: CONFIRM_POST_DELETE, post: null };
 }

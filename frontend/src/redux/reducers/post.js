@@ -1,4 +1,4 @@
-import {POSTS_LOADED, POST_LOADED, CONFIRM_POST_DELETE, POSTS_ORDER_BY} from "../actions";
+import {POSTS_LOADED, POST_LOADED, POSTS_ORDER_BY} from "../actions";
 
 export function posts(state = [], action) {
     switch (action.type) {
@@ -25,15 +25,6 @@ export function posts(state = [], action) {
 export function post(state = null, action) {
     switch (action.type) {
         case POST_LOADED:
-            return action.post;
-        default:
-            return state
-    }
-}
-
-export function postToDelete(state = null, action) {
-    switch (action.type) {
-        case CONFIRM_POST_DELETE:
             return action.post;
         default:
             return state

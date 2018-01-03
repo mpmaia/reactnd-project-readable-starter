@@ -1,10 +1,8 @@
-import {CONFIRM_POST_DELETE} from "./index";
 import CommentsApi from "../../api/CommentsApi";
 import {fetchPostComments} from "./post";
 import {showError} from "./error";
 
 export const COMMENTS_LOADED = 'COMMENTS_LOADED';
-export const CONFIRM_COMMENT_DELETE = 'CONFIRM_COMMENT_DELETE';
 
 export function addComment(comment, post) {
     return (dispatch) => {
@@ -35,7 +33,6 @@ export function deleteComment(comment) {
         CommentsApi
             .deleteComment(comment)
             .then(response => {
-                dispatch(cancelDeleteComment());
                 dispatch(fetchPostComments(comment.parentId));
             }).catch( response => {
                 dispatch(showError(response));
@@ -69,16 +66,4 @@ export function downVoteComment(comment) {
 
 export function commentsLoaded(comments) {
     return { type: COMMENTS_LOADED, comments };
-}
-
-export function confirmDeletePost(post) {
-    return { type: CONFIRM_POST_DELETE, post };
-}
-
-export function confirmDeleteComment(comment) {
-    return { type: CONFIRM_COMMENT_DELETE, comment };
-}
-
-export function cancelDeleteComment() {
-    return { type: CONFIRM_COMMENT_DELETE, comment: null };
 }
