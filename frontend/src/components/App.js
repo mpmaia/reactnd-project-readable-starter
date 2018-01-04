@@ -14,7 +14,7 @@ import ChevronRightIcon from 'material-ui-icons/ChevronRight';
 import { MuiThemeProvider } from 'material-ui/styles';
 import theme from '../theme';
 import PostList from './posts/PostList';
-import { Switch, Route } from 'react-router-dom'
+import {Switch, Route} from 'react-router-dom'
 import CategoryList from './categories/CategoryList';
 import PostDetails from './posts/PostDetails';
 import {connect} from "react-redux";
@@ -105,7 +105,7 @@ const styles = theme => ({
     }
 });
 
-class App extends React.Component {
+export class App extends React.Component {
     state = {
         open: false,
         anchor: 'left',
@@ -200,7 +200,7 @@ class App extends React.Component {
 }
 
 App.propTypes = {
-    classes: PropTypes.object.isRequired
+    errorMsg: PropTypes.string
 };
 
 const mapStateToProps = (state) => {

@@ -12,7 +12,7 @@ import {Button, FormControl, Input, InputLabel, Select} from "material-ui";
 import AddIcon from 'material-ui-icons/Add';
 import EditPost from "./EditPost";
 import {sortByKey} from "../../util/compare";
-import withRouter from "react-router-dom/es/withRouter";
+import {withRouter} from "react-router";
 
 const styles = theme => ({
     root: {
