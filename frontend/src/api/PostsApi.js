@@ -28,7 +28,8 @@ class PostsApi extends BaseApi {
     }
 
     addPost(post) {
-        post.id = uuid();
+        if(!post.id)
+            post.id = uuid();
         post.timestamp = new Date();
         return this.post('/posts', post);
     }
