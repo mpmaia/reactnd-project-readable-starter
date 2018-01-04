@@ -137,10 +137,10 @@ describe('async actions', () => {
         });
     });
 
-    /*
+
     it('dispatch a fetchPosts() when post is added', () => {
 
-        mock.onPost('/posts/').reply(200);
+        mock.onPost('/posts').reply(200);
         mock.onGet('/posts').reply(200, mockPosts);
 
         const mockDispatch = jest.fn();
@@ -157,7 +157,7 @@ describe('async actions', () => {
                 expect(store.getActions()).toEqual(expectedActions)
             })
         });
-    });*/
+    });
 
     it('dispatch a fetchPosts() when post is edit', () => {
 
