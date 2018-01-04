@@ -1,9 +1,9 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import {App} from './App';
+import {App} from '../../components/App';
 import {MemoryRouter} from "react-router";
 import { Provider } from 'react-redux';
-import {getMockAxios, getMockStore} from "../test/utils/mocks";
+import {getMockAxios, getMockStore} from "../utils/mocks";
 
 describe('<APP>',()=>{
     var store, mock;

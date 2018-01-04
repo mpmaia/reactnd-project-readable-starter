@@ -1,7 +1,7 @@
 import CommentsApi from "../../api/CommentsApi";
 import PostsApi from "../../api/PostsApi";
 import {commentsLoaded} from "./comment";
-import {showError} from './error';
+import {showError, withError} from './error';
 
 export const POSTS_LOADED = 'POSTS_LOADED';
 export const POST_LOADED = 'POST_LOADED';
@@ -9,104 +9,88 @@ export const POSTS_ORDER_BY = 'POSTS_ORDER_BY';
 
 export function fetchPosts() {
     return (dispatch) => {
-        PostsApi
+        return withError(dispatch, PostsApi
             .getPosts()
             .then(response => {
                 dispatch(postsLoaded(response.data));
-            }).catch( response => {
-                dispatch(showError(response));
-            });
+            }));
         };
 }
 
 export function fetchPostsByCategory(category) {
     return (dispatch) => {
-        PostsApi
+        return withError(dispatch, PostsApi
             .getPostByCategory(category)
             .then(response => {
                 dispatch(postsLoaded(response.data));
-            }).catch( response => {
-                dispatch(showError(response));
-            });
+            }));
     };
 }
 
 export function fetchPost(id) {
     return (dispatch) => {
-        PostsApi
+        return withError(dispatch, PostsApi
             .getPost(id)
             .then(response => {
                 dispatch(postLoaded(response.data));
                 dispatch(fetchPostComments(id));
-            }).catch( response => {
-                dispatch(showError(response));
-            });
+            }));
     };
 }
 
 export function fetchPostComments(id) {
     return (dispatch) => {
-        CommentsApi
+        return withError(dispatch, CommentsApi
             .getPostComments(id)
             .then(response => {
                 dispatch(commentsLoaded(response.data));
-            }).catch( response => {
-                dispatch(showError(response));
-            });
+            }));
     };
 }
 
 export function upVotePost(post) {
-    return (dispatch) => {
-        PostsApi
+     return (dispatch) => {
+        return withError(dispatch, PostsApi
             .upVote(post)
             .then(response => {
                 dispatch(fetchPost(post.id));
-            }).catch( response => {
-                dispatch(showError(response));
-            });
+            }));
     };
 }
 
 export function downVotePost(post) {
     return (dispatch) => {
-        PostsApi
+        return withError(dispatch, PostsApi
             .downVote(post)
             .then(response => {
                 dispatch(fetchPost(post.id));
-            }).catch( response => {
-                dispatch(showError(response));
-            });
+            }));
     };
 }
 
 export function deletePost(post) {
     return (dispatch) => {
-        PostsApi
+        return withError(dispatch, PostsApi
             .deletePost(post)
             .then(response => {
                 dispatch(fetchPosts());
-            }).catch( response => {
-                dispatch(showError(response));
-            });
+            }));
     };
 }
 
 export function addPost(post) {
     return (dispatch) => {
-        PostsApi
+        return withError(dispatch, PostsApi
             .addPost(post)
             .then(response => {
                 dispatch(fetchPosts());
-            }).catch( response => {
-                dispatch(showError(response));
-            });
+            }));
     };
 }
 
 export function editPost(post, reloadAll = false) {
     return (dispatch) => {
-        PostsApi
+        return withError(dispatch, PostsApi
             .editPost(post)
             .then(response => {
                 if(reloadAll) {
@@ -114,9 +98,7 @@ export function editPost(post, reloadAll = false) {
                 } else {
                     dispatch(fetchPost(post.id));
                 }
-            }).catch( response => {
-                dispatch(showError(response));
-            });
+            }));
     };
 }
 

@@ -7,6 +7,12 @@ export function createError(msg) {
     }
 }
 
+export function withError(dispatch, promise) {
+    return promise.catch( response => {
+        dispatch(showError(response));
+    });
+}
+
 export function showError(response) {
     return (dispatch) => {
         console.log("Failed response", response);
