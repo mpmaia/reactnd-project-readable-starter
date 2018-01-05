@@ -35,7 +35,7 @@ const styles = theme => ({
     }
 });
 
-class PostDetails extends React.Component {
+export class PostDetails extends React.Component {
 
     state = {
         /**
@@ -90,7 +90,7 @@ class PostDetails extends React.Component {
                 }
                 <div className={classes.actions}>
                     <div className={classes.flexGrow} />
-                    <Button fab color="primary" aria-label="add" className={classes.addButton} onClick={() => this.createNewComment()}>
+                    <Button fab color="primary" aria-label="Add Comment" className={classes.addButton} onClick={() => this.createNewComment()}>
                         <AddIcon />
                     </Button>
                 </div>
@@ -118,7 +118,11 @@ class PostDetails extends React.Component {
 PostDetails.propTypes = {
     classes: PropTypes.object,
     post: PropTypes.object,
-    comments: PropTypes.array
+    comments: PropTypes.array,
+    fetchPost: PropTypes.func,
+    editPost: PropTypes.func,
+    deletePost: PropTypes.func,
+    addComment: PropTypes.func
 };
 
 const mapStateToProps = (state) => {

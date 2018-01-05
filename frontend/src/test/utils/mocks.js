@@ -11,8 +11,8 @@ export function getMockAxios() {
     return mock;
 }
 
-export function getMockStore() {
-    return mockStore(initialState);
+export function getMockStore(state) {
+    return mockStore(state?state:initialState);
 }
 
 export function mockRootDom() {

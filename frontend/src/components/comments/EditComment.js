@@ -132,7 +132,7 @@ class EditComment extends React.Component {
                         }
 
                         <TextField
-                            id="multiline-static"
+                            id="commentBody"
                             label="Text"
                             multiline
                             rows="3"
@@ -145,10 +145,10 @@ class EditComment extends React.Component {
                         />
                     </DialogContent>
                     <DialogActions>
-                        <Button onClick={() => this.handleClose(false)} color="primary">
+                        <Button onClick={() => this.handleClose(false)} color="primary" aria-label="Cancel Comment">
                             Cancel
                         </Button>
-                        <Button onClick={() => this.handleClose(true)} color="primary">
+                        <Button onClick={() => this.handleClose(true)} color="primary" aria-label="Save Comment">
                             Save
                         </Button>
                     </DialogActions>

@@ -36,7 +36,7 @@ const styles = theme => ({
     }
 });
 
-class PostList extends React.Component {
+export class PostList extends React.Component {
 
     state = {
         addingPost: false,
@@ -137,7 +137,7 @@ class PostList extends React.Component {
                 />
                 <div className={classes.actions}>
                     <div className={classes.flexGrow} />
-                    <Button fab color="primary" aria-label="add" className={classes.addButton} onClick={() => this.createNewPost()}>
+                    <Button fab color="primary" aria-label="New Post" className={classes.addButton} onClick={() => this.createNewPost()}>
                         <AddIcon />
                     </Button>
                 </div>
@@ -151,7 +151,13 @@ class PostList extends React.Component {
 }
 
 PostList.propTypes = {
-    posts: PropTypes.array.isRequired
+    posts: PropTypes.array.isRequired,
+    fetchPosts: PropTypes.func,
+    fetchPostsByCategory: PropTypes.func,
+    deletePost: PropTypes.func,
+    addPost: PropTypes.func,
+    editPost: PropTypes.func,
+    postOrderBy: PropTypes.func
 };
 
 const mapStateToProps = (state) => {
