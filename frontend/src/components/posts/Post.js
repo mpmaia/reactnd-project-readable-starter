@@ -41,7 +41,7 @@ const styles = theme => ({
     }
 });
 
-class Post extends React.Component {
+export class Post extends React.Component {
 
     render() {
         const { classes, post, upVote, downVote, deletePost, editPost, showBody } = this.props;
@@ -59,7 +59,7 @@ class Post extends React.Component {
                 />
                 {showBody &&
                     (<CardContent>
-                        <Typography component="p">
+                        <Typography component="p" classes={classes.body}>
                             {post.body}
                         </Typography>
                     </CardContent>)
