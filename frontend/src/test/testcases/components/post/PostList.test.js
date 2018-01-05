@@ -92,6 +92,12 @@ describe('PostList component tests', () => {
         wrapper.find("IconButton[aria-label=\"Edit Post\"]").first().simulate('click');
         expect(wrapper.find("Dialog DialogTitle").text()).toEqual("Edit post");
 
+        //close dialog
+        wrapper.find("Button[aria-label=\"Cancel Post\"]").simulate('click');
+
+        //open it again
+        wrapper.find("IconButton[aria-label=\"Edit Post\"]").first().simulate('click');
+
         //fill the form
         fillTextField(wrapper, "Title", "Title Value");
         fillTextField(wrapper, "Text", "Text Value", true);
@@ -99,6 +105,31 @@ describe('PostList component tests', () => {
         wrapper.find("Button[aria-label=\"Save Post\"]").simulate('click');
 
         expect(editPost.mock.calls.length).toEqual(1);
+    });
+
+    it('mount and simulate delete post', () => {
+
+        var wrapper = reduxWrapper();
+
+        wrapper.find("IconButton[aria-label=\"Delete Post\"]").first().simulate('click');
+
+        //check dialog created
+        expect(wrapper.find("Dialog DialogTitle").text()).toEqual("Delete post?");
+
+        //cancel delete
+        wrapper.find("Dialog Button[aria-label=\"No\"]").simulate('click');
+
+        //click delete
+        wrapper.find("IconButton[aria-label=\"Delete Post\"]").first().simulate('click');
+
+        //check dialog created
+        expect(wrapper.find("Dialog DialogTitle").text()).toEqual("Delete post?");
+
+        //cancel delete
+        wrapper.find("Dialog Button[aria-label=\"Yes\"]").simulate('click');
+
+        expect(deletePost.mock.calls.length).toEqual(1);
+
     });
 
 });

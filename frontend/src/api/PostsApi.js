@@ -34,6 +34,30 @@ class PostsApi extends BaseApi {
         return this.post('/posts', post);
     }
 
+    validatePost(post, errorCallback) {
+        if(!post.title) {
+            errorCallback && errorCallback('title');
+            return false;
+        }
+
+        if(!post.author) {
+            errorCallback && errorCallback('author');
+            return false;
+        }
+
+        if(!post.body) {
+            errorCallback && errorCallback('body');
+            return false;
+        }
+
+        if(!post.category) {
+            errorCallback && errorCallback('category');
+            return false;
+        }
+
+        return true;
+    }
+
     editPost(post) {
         return this.put(`/posts/${post.id}`, post);
     }

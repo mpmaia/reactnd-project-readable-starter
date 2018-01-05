@@ -75,11 +75,11 @@ class Comment extends React.Component {
                             <Delete />
                         </IconButton>
                         <div className={classes.flexGrow} />
-                        <IconButton className={classes.button} onClick={() => downVote(comment)}>
+                        <IconButton className={classes.button} aria-label="Down vote comment" onClick={() => downVote(comment)}>
                             <ThumbDown />
                         </IconButton>
                         {comment.voteScore}
-                        <IconButton className={classes.button} onClick={() => upVote(comment)}>
+                        <IconButton className={classes.button} aria-label="Up vote comment" onClick={() => upVote(comment)}>
                             <ThumbUp />
                         </IconButton>
                     </CardActions>

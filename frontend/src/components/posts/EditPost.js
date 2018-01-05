@@ -13,6 +13,7 @@ import { FormControl, FormHelperText } from 'material-ui/Form';
 import Select from 'material-ui/Select';
 import Input, { InputLabel } from 'material-ui/Input';
 import PropTypes from "prop-types";
+import PostsApi from "../../api/PostsApi";
 
 class EditPost extends React.Component {
 
@@ -36,23 +37,7 @@ class EditPost extends React.Component {
 
     savePost() {
 
-        if(!this.state.title) {
-            this.fieldError('title');
-            return;
-        }
-
-        if(!this.state.author) {
-            this.fieldError('author');
-            return;
-        }
-
-        if(!this.state.body) {
-            this.fieldError('body');
-            return;
-        }
-
-        if(!this.state.category) {
-            this.fieldError('category');
+        if(!PostsApi.validatePost(this.state, (f) => this.fieldError(f))) {
             return;
         }
 
@@ -178,7 +163,7 @@ class EditPost extends React.Component {
                                         )
                                         }
                                     </Select>
-                                    <FormHelperText>{this.state.categoryError}</FormHelperText>
+                                    <FormHelperText>{this.state.categoryError?this.state.categoryError:""}</FormHelperText>
                                 </FormControl>
                             </div>
                         }
@@ -191,7 +176,7 @@ class EditPost extends React.Component {
                             margin="normal"
                             fullWidth
                             value={this.state.body}
-                            error={this.state.bodyError}
+                            error={!!this.state.bodyError}
                             helperText={!!this.state.bodyError}
                             onChange={(e) => this.handleChange("body", e.target.value)}
                         />

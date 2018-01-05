@@ -139,7 +139,7 @@ class EditComment extends React.Component {
                             margin="normal"
                             fullWidth
                             value={this.state.body}
-                            error={this.state.bodyError}
+                            error={!!this.state.bodyError}
                             helperText={!!this.state.bodyError}
                             onChange={(e) => this.handleChange("body", e.target.value)}
                         />

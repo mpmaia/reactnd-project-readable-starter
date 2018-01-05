@@ -24,7 +24,6 @@ class ConfirmDialog extends React.Component {
         return (
             <Dialog
                 open={open}
-                onClose={() => this.handleDialogClose(false)}
                 aria-labelledby="alert-dialog-title"
                 aria-describedby="alert-dialog-description"
             >
