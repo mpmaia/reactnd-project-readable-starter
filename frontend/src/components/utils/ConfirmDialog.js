@@ -35,10 +35,10 @@ class ConfirmDialog extends React.Component {
                     </DialogContentText>
                 </DialogContent>
                 <DialogActions>
-                    <Button onClick={() => this.handleDialogClose(false)} color="primary" autoFocus>
+                    <Button onClick={() => this.handleDialogClose(false)} aria-label="No" color="primary" autoFocus>
                         No
                     </Button>
-                    <Button onClick={() => this.handleDialogClose(true)} color="primary">
+                    <Button onClick={() => this.handleDialogClose(true)} aria-label="Yes" color="primary">
                         Yes
                     </Button>
                 </DialogActions>

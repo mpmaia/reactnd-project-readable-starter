@@ -6,16 +6,17 @@ import initMockDom from "../../../utils/mockDom";
 import {getMockAxios, getMockStore} from "../../../utils/mocks";
 import { Provider } from 'react-redux';
 import {fillTextField} from "../../../utils/materialui";
+import {deleteComment, upVotePost} from "../../../../redux/actions";
 
 initMockDom();
 
 describe('PostDetails component tests', () => {
 
-    var post = {body: 'TESTE', title: 'TITLE', author: 'Me', category: 'react'};
-    var comments = [{id: 1, body: 'COMMENT', author: 'Me'}];
+    var post = {id: 1, body: 'TESTE', title: 'TITLE', author: 'Me', category: 'react'};
+    var comments = [{id: 1, body: 'COMMENT', author: 'Me', parentId: 1}];
 
     var classes = {body:{}};
-    var fetchPost, addComment, deletePost, editPost;
+    var fetchPost, addComment, deletePost, editPost, historyPush;
     var routerMatch = { params: { postId: 1 } };
     var store, mock;
 
@@ -28,6 +29,7 @@ describe('PostDetails component tests', () => {
         addComment = jest.fn();
         deletePost = jest.fn();
         editPost = jest.fn();
+        historyPush = jest.fn();
         mock.reset();
         store = getMockStore();
     });
@@ -37,7 +39,7 @@ describe('PostDetails component tests', () => {
         const wrapper = mount(
             <MemoryRouter>
                 <Provider store={store}>
-                    <PostDetails post={post} comments={comments}
+                    <PostDetails post={post} comments={comments} history={{push: historyPush}}
                                  classes={classes} match={routerMatch}
                                  fetchPost={fetchPost} addComment={addComment}
                                  deletePost={deletePost} editPost={editPost}/>
@@ -107,4 +109,69 @@ describe('PostDetails component tests', () => {
 
     });
 
+    it('mount and simulate delete post', () => {
+
+        var wrapper = reduxWrapper();
+
+        expect(fetchPost.mock.calls.length).toEqual(1);
+
+        wrapper.find("IconButton[aria-label=\"Delete Post\"]").simulate('click');
+
+        //check dialog created
+        expect(wrapper.find("Dialog DialogTitle").text()).toEqual("Delete post?");
+
+        //cancel delete
+        wrapper.find("Dialog Button[aria-label=\"No\"]").simulate('click');
+
+        //click delete
+        wrapper.find("IconButton[aria-label=\"Delete Post\"]").simulate('click');
+
+        //check dialog created
+        expect(wrapper.find("Dialog DialogTitle").text()).toEqual("Delete post?");
+
+        //cancel delete
+        wrapper.find("Dialog Button[aria-label=\"Yes\"]").simulate('click');
+
+        expect(deletePost.mock.calls.length).toEqual(1);
+        expect(historyPush.mock.calls.length).toEqual(1);
+
+    });
+
+    it('mount and simulate delete post', () => {
+
+        var wrapper = reduxWrapper();
+
+        mock.onDelete("/comments/1").reply(200);
+        mock.onPost("/posts/1").reply(200);
+        mock.onGet("/posts/1/comments").reply(200, comments);
+
+        wrapper.find("IconButton[aria-label=\"Delete comment\"]").simulate('click');
+
+        //check dialog created
+        expect(wrapper.find("Dialog DialogTitle").text()).toEqual("Delete comment?");
+
+        //cancel delete
+        wrapper.find("Dialog Button[aria-label=\"No\"]").simulate('click');
+
+        //click delete
+        wrapper.find("IconButton[aria-label=\"Delete comment\"]").simulate('click');
+
+        //check dialog created
+        expect(wrapper.find("Dialog DialogTitle").text()).toEqual("Delete comment?");
+
+        //cancel delete
+        wrapper.find("Dialog Button[aria-label=\"Yes\"]").simulate('click');
+
+    });
+
+    it('mount and simulate upVote and downVote post', () => {
+
+        var wrapper = reduxWrapper();
+        mock.onPost(`/posts/1`, {option: 'upVote'}).reply(200);
+        mock.onPost(`/posts/1`, {option: 'downVote'}).reply(200);
+
+        wrapper.find("IconButton[aria-label=\"Down Vote\"]").simulate('click');
+        wrapper.find("IconButton[aria-label=\"Up Vote\"]").simulate('click');
+
+    });
 });
