@@ -1,11 +1,20 @@
 import axios from 'axios';
+import uuid from 'uuid/v1';
+
+var authToken = typeof localStorage !== 'undefined' && localStorage.token;
+if (!authToken) {
+    authToken = uuid();
+    if(typeof localStorage !== 'undefined') {
+        localStorage.token = authToken;
+    }
+}
 
 class BaseApi {
 
     config = {
         baseURL: 'http://localhost:3001/',
         headers: {
-            'Authorization': 'teste'
+            'Authorization': authToken
         }
     };
 
