@@ -63,6 +63,19 @@ describe('PostList component tests', () => {
         expect(fetchPosts.mock.calls.length).toEqual(1);
     });
 
+    it('renders and simulate post load by category', () => {
+        const wrapper = shallow(
+            <PostList posts={posts} postOrderByField={'author'}
+                      classes={classes} match={routerMatch}
+                      fetchPosts={fetchPosts} fetchPostsByCategory={fetchPostsByCategory}
+                      deletePost={deletePost} editPost={editPost} postOrderBy={postOrderBy}/>
+        );
+
+        wrapper.setProps({match: { params: { category: 'test' }}});
+
+        expect(fetchPostsByCategory).toBeCalledWith('test');
+    });
+
     it('mount and simulate add post', () => {
 
         var wrapper = reduxWrapper();

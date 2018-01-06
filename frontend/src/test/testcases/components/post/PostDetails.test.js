@@ -60,7 +60,17 @@ describe('PostDetails component tests', () => {
 
         expect(fetchPost.mock.calls.length).toEqual(1);
 
+    });
 
+    it('renders and simulate invalid post', () => {
+        const wrapper = mount(
+            <PostDetails post={null} comments={comments}
+                         classes={classes} match={routerMatch}
+                         fetchPost={fetchPost} addComment={addComment}
+                         deletePost={deletePost} editPost={editPost}/>
+        );
+
+        expect(wrapper.find("CircularProgress").length).toEqual(1);
     });
 
     it('mount and simulate edit post', () => {
@@ -88,8 +98,14 @@ describe('PostDetails component tests', () => {
 
         expect(fetchPost.mock.calls.length).toEqual(1);
 
+        //click edit post and check dialog open
         wrapper.find("IconButton[aria-label=\"Edit Post\"]").simulate('click');
         expect(wrapper.find("Dialog DialogTitle").text()).toEqual("Edit post");
+
+        //cancel dialog and open it again
+        wrapper.find("Button[aria-label=\"Cancel Post\"]").simulate('click');
+        wrapper.find("IconButton[aria-label=\"Edit Post\"]").simulate('click');
+
 
         //fill the form
         fillTextField(wrapper, "Title", "");
