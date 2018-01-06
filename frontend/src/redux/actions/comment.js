@@ -1,6 +1,6 @@
 import CommentsApi from "../../api/CommentsApi";
 import {fetchPostComments} from "./post";
-import {showError, withError} from "./error";
+import {withError} from "./error";
 
 export const COMMENTS_LOADED = 'COMMENTS_LOADED';
 

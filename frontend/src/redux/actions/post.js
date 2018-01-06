@@ -1,7 +1,7 @@
 import CommentsApi from "../../api/CommentsApi";
 import PostsApi from "../../api/PostsApi";
 import {commentsLoaded} from "./comment";
-import {showError, withError} from './error';
+import {withError} from './error';
 
 export const POSTS_LOADED = 'POSTS_LOADED';
 export const POST_LOADED = 'POST_LOADED';
