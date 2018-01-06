@@ -31,7 +31,7 @@ const styles = theme => ({
     },
 });
 
-class Comment extends React.Component {
+export class Comment extends React.Component {
 
     state = {
         editingComment: false,

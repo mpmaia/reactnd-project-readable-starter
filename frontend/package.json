@@ -33,5 +33,13 @@
   },
   "devDependencies": {
     "axios-mock-adapter": "^1.10.0"
+  },
+  "jest": {
+    "collectCoverageFrom": [
+      "src/**/*.{js,jsx}",
+      "!<rootDir>/node_modules/",
+      "!src/index.js",
+      "!src/registerServiceWorker.js"
+    ]
   }
 }

@@ -7,6 +7,7 @@ import {getMockAxios, getMockStore} from "../../../utils/mocks";
 import { Provider } from 'react-redux';
 import {fillTextField} from "../../../utils/materialui";
 import {deleteComment, upVotePost} from "../../../../redux/actions";
+import {ERROR} from "../../../../redux/actions/error";
 
 initMockDom();
 
@@ -141,8 +142,8 @@ describe('PostDetails component tests', () => {
         wrapper.find("Button[aria-label=\"Save Comment\"]").simulate('click');
 
         expect(addComment.mock.calls.length).toEqual(1);
-        expect(addComment.mock.calls[0][0].author).toEqual("Author Value")
-        expect(addComment.mock.calls[0][0].body).toEqual("Text Value")
+        expect(addComment.mock.calls[0][0].author).toEqual("Author Value");
+        expect(addComment.mock.calls[0][0].body).toEqual("Text Value");
 
     });
 
