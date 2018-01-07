@@ -203,11 +203,7 @@ App.propTypes = {
     errorMsg: PropTypes.string
 };
 
-const mapStateToProps = (state) => {
-    return {
-        errorMsg: state.errorMsg,
-    };
-};
+const mapStateToProps = ({ errorMsg }) => ({ errorMsg });
 
 const mapDispatchToProps = (dispatch) => {
     return {

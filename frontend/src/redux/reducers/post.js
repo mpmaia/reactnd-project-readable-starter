@@ -5,15 +5,9 @@ export function posts(state = [], action) {
         case POSTS_LOADED:
             return action.posts;
         case POST_LOADED:
-            //If just one post was loaded, find it on the posts array and update it.
+            //If just one post was loaded, replace it on the state.
             if(state) {
-                return state.map(s => {
-                    if(s.id===action.post.id) {
-                        return action.post;
-                    } else {
-                        return s;
-                    }
-                })
+                return state.filter((p) => p.id!==action.post.id).concat(action.post)
             } else {
                 return state;
             }
