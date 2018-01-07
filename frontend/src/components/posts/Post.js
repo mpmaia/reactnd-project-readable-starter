@@ -47,12 +47,16 @@ export class Post extends React.Component {
     render() {
         const { classes, post, upVote, downVote, deletePost, editPost, showBody } = this.props;
 
+        if(!post.id) {
+            return (<p>Invalid post</p>);
+        }
+
         return (
             <Card className={classes.card}>
                 <CardHeader
                     avatar={
                         <Avatar aria-label="Author" className={classes.avatar}>
-                            {post.author.charAt(0).toUpperCase()}
+                            {post.author && post.author.charAt(0).toUpperCase()}
                         </Avatar>
                     }
                     title={(<Link to={`/${post.category}/${post.id}`}>{post.title}</Link>)}

@@ -14,6 +14,7 @@ import {sortByKey} from "../../util/compare";
 import {deletePost} from "../../redux/actions";
 import {withRouter} from "react-router";
 import Post from "./Post";
+import {PostNotFound} from "./PostNotFound";
 
 const styles = theme => ({
     card: {
@@ -75,6 +76,10 @@ export class PostDetails extends React.Component {
 
         if(!post) {
             return (<div><CircularProgress className={classes.progress} /></div>);
+        }
+
+        if(!post.id) {
+            return (<PostNotFound/>);
         }
 
         return (

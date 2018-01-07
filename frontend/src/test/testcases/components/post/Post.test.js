@@ -8,7 +8,7 @@ initMockDom();
 
 describe('Post component tests', () => {
 
-    var post = {body: 'TESTE', title: 'TITLE', author: 'Me'};
+    var post = {body: 'TESTE', title: 'TITLE', author: 'Me', id: 1};
     var classes = {body:{}};
     var upVote, downVote, deletePost, editPost;
 

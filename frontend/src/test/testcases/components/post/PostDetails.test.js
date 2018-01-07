@@ -8,6 +8,7 @@ import { Provider } from 'react-redux';
 import {fillTextField} from "../../../utils/materialui";
 import {deleteComment, upVotePost} from "../../../../redux/actions";
 import {ERROR} from "../../../../redux/actions/error";
+import PostNotFound from "../../../../components/posts/PostNotFound";
 
 initMockDom();
 
@@ -61,6 +62,18 @@ describe('PostDetails component tests', () => {
 
         expect(fetchPost.mock.calls.length).toEqual(1);
 
+    });
+
+    it('renders and simulate 404 post', () => {
+        const wrapper = shallow(
+            <PostDetails post={{}} comments={comments}
+                         classes={classes} match={routerMatch}
+                         fetchPost={fetchPost} addComment={addComment}
+                         deletePost={deletePost} editPost={editPost}/>
+        );
+
+        expect(fetchPost.mock.calls.length).toEqual(1);
+        expect(wrapper.find("PostNotFound").length).toEqual(1);
     });
 
     it('renders and simulate invalid post', () => {
