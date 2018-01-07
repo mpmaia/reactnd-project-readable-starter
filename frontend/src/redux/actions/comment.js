@@ -1,5 +1,5 @@
 import CommentsApi from "../../api/CommentsApi";
-import {fetchPostComments} from "./post";
+import {fetchPost, fetchPostComments} from "./post";
 import {withError} from "./error";
 
 export const COMMENTS_LOADED = 'COMMENTS_LOADED';
@@ -9,7 +9,7 @@ export function addComment(comment, post) {
         return withError(dispatch, CommentsApi
             .addComment(comment, post)
             .then(response => {
-                dispatch(fetchPostComments(comment.parentId));
+                dispatch(fetchPost(post.id));
             }));
     };
 }

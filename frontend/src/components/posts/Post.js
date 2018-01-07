@@ -12,6 +12,7 @@ import {Link} from "react-router-dom";
 import {Avatar, Card, CardActions, CardContent, CardHeader, Typography} from "material-ui";
 import moment from "moment";
 import blue from "material-ui/colors/blue";
+import pluralize from "../../util/pluralize";
 
 const styles = theme => ({
     card: {
@@ -55,7 +56,7 @@ export class Post extends React.Component {
                         </Avatar>
                     }
                     title={(<Link to={`/${post.category}/${post.id}`}>{post.title}</Link>)}
-                    subheader={`${post.author} - ${moment(post.timestamp).format('MMMM D, YYYY')}`}
+                    subheader={`${post.author} - ${moment(post.timestamp).format('MMMM D, YYYY')} - ${post.commentCount} ${pluralize(post.commentCount,'comment')}`}
                 />
                 {showBody &&
                     (<CardContent>

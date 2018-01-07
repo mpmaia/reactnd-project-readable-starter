@@ -1,6 +1,7 @@
 import {getMockAxios, getMockStore} from "../../../utils/mocks";
 import {
-    addComment, deleteComment, downVoteComment, editComment, fetchPostComments, upVoteComment} from "../../../../redux/actions";
+    addComment, deleteComment, downVoteComment, editComment, fetchPostComments, POST_LOADED, upVoteComment
+} from "../../../../redux/actions";
 import {COMMENTS_LOADED} from "../../../../redux/actions/comment";
 
 describe('comment actions', () => {
@@ -35,6 +36,7 @@ describe('comment actions', () => {
     it('dispatch a fetchPostComments() when comment is added', () => {
 
         mock.onGet(`/posts/${mockPosts[0].id}/comments`).reply(200, mockComments);
+        mock.onGet(`/posts/${mockPosts[0].id}`).reply(200, mockPosts[0]);
         mock.onPost('/comments').reply(200);
 
         const mockDispatch = jest.fn();
@@ -44,7 +46,7 @@ describe('comment actions', () => {
         return result(mockDispatch).then(() => {
 
             const expectedActions = [
-                { type: COMMENTS_LOADED, comments: mockComments}
+                { type: POST_LOADED, post: mockPosts[0]}
             ];
 
             return store.dispatch(mockDispatch.mock.calls[0][0]).then(() => {
